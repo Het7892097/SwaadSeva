@@ -15,5 +15,5 @@ const Order=mongo.model("Orders",orderSchema);
 
 
 module.exports = {
-    User, Product,Order
+    User, Product, Order
 }

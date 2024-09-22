@@ -1,6 +1,4 @@
 const mongo = require('mongoose');
-const { User } = require("../DB");
-const { array, number, boolean } = require('zod');
 
 const orderSchema = new mongo.Schema({
     orderDate: {
