@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
 const { Product } = require("../DB");
-const { ProductCreateValidator,productUpdateValidtor} = require("../validators/productValidator");
+const { ProductCreateValidator,productUpdateValidtor,productIdValidator} = require("../validators/productValidator");
 const { mongo } = require("mongoose");
 const { secretKey } = require("../utils/KeySettings")
 // console.log(secretKey);
 
-async function lister(filter = null) { //setting default value to null, so for checking if no input ir provided
+async function nameLister(nameFilter = null) { //setting default value to null, so for checking if no input ir provided
     try {
-        if (filter === null || filter == "") {
+        if(nameFilter === null || nameFilter == "") {
             // return "emptIp";
             return await Product.aggregate([
                 { $sample: { size: 15 } } // returning 15 random products
@@ -18,9 +18,29 @@ async function lister(filter = null) { //setting default value to null, so for c
 
         return await Product.find({
             name: {
-                "$regex": filter, //matches document/values based mathcing with filter
+                "$regex": nameFilter, //matches document/values based mathcing with filter
                 "$options": "i" // allows case-insenstivity
             }
+        })
+    }
+    catch (e) { 
+        console.error("Error occurred while fetching product-list"+e.message);
+        return "FetchError";
+    }
+}
+async function categoryLister(categoryFilter = null) { //setting default value to null, so for checking if no input ir provided
+    try {
+        if (categoryFilter === null || categoryFilter == "") {
+            // return "emptIp";
+            return await Product.aggregate([
+                { $sample: { size: 15 } } // returning 15 random products
+            ]);
+
+        }
+        //else
+
+        return await Product.find({
+            category: categoryFilter
         })
     }
     catch (e) { 
@@ -122,6 +142,7 @@ async function ProductGetter(productId) {
 }
 
 
+
 module.exports={
-lister,creator,updater,remover
+nameLister,categoryLister,creator,updater,remover
 }

@@ -13,7 +13,7 @@ async function creator(reqBody, ipAdminKey) {
     if (!isValid) {
         return "InvalidUserDetails";
     }
-    if (reqBody.isAdmin == true && ipAdminKey != adminKey) {
+    if (reqBody.isAdmin == true && (!ipAdminKey || ipAdminKey != adminKey)) {
         return "InvalidAdminKey"
     }
     //else 

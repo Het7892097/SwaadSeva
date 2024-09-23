@@ -1,6 +1,7 @@
 const {jwtVerifier}=require("../utils/jwtVerifier")
 
 function userMiddleware(req,res,next){
+
     token=req.headers["authorization"];
     // console.log(token);
     const tokenValidity = jwtVerifier(token);
@@ -12,8 +13,6 @@ function userMiddleware(req,res,next){
     req.decodedToken=tokenValidity;
     next();    
 };
-
-
 
 module.exports={
     userMiddleware

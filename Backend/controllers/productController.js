@@ -1,7 +1,7 @@
-const { lister, creator, remover, updater } = require("../repository/productRepo");
+const { nameLister, creator, remover, updater } = require("../repository/productRepo");
 
 const productLister = async (req, res) => {
-    const result = await lister(req.query.filter);
+    const result = await nameLister(req.query.filter);
 
     if (result == "FetchError") {
         return res.status(500).json({
@@ -50,7 +50,7 @@ const productUpdater = async (req, res) => {
         });
     }
     else if (result == "ProductNotExists") {
-        return res.status(400).json({
+        return res.status(409).json({
             message: "Product not exists, try adding or changing name"
         });
     }

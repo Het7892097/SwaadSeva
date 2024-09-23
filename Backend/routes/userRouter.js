@@ -1,3 +1,6 @@
+//Separated DB logic from controller so as in future if there's requirement to change the DB used i.e MSSQL/ firebase then we don't need change controller,just have to create repo logic
+//matching controller logic
+
 const express=require("express");
 const router=express.Router();
 const {userCreator,userLogger,userRemover,userUpdater,productOrder}=require("../controllers/userController");

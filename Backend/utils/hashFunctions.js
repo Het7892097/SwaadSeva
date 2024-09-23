@@ -8,7 +8,7 @@ async function hashVerifier(password, hash) {
         return isValid;
     }
     catch (e) {
-        console.error("Error while verifying hash, Invlaid Password");
+        console.error("Error while verifying hash, Invalid Password");
         return false;
     }
 

@@ -9,7 +9,7 @@ const userCreator = async (req, res) => {
     }
     else if (result == "InvalidAdminKey") {
         return res.status(401).json({
-            message: "Unauthorized to be an Admin, adminKey is incorrect"
+            message: "Unauthorized to be an Admin, as adminKey not provided or it's  incorrect"
         });
     }
     else if (result == "UserAlreadyExist") {
@@ -30,7 +30,6 @@ const userCreator = async (req, res) => {
     }
 }
 
-
 const userLogger = async (req, res) => {
     const result = await logger(req.body);
 
@@ -46,7 +45,7 @@ const userLogger = async (req, res) => {
     }
     else if (result == "InvalidUserCredentials") {
         return res.status(401).json({
-            message: "Invalid password or mobile-no"
+            message: "Invalid User-credentials"
         });
     }
     else {
@@ -60,7 +59,7 @@ const userLogger = async (req, res) => {
 const userUpdater = async (req, res) => {
     const result = await updater(req.body, req.decodedToken);
     if (result == "CannotChangeMobileNo") {
-        return res.status(400).json({
+        return res.status(409).json({
             message: "Cannot change the mobile-no"
         });
     }

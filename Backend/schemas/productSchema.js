@@ -50,7 +50,6 @@ const productSchema = new mongo.Schema({
     count: {
         type: Number,
         default: 0,
-        max:5
     }
 })
 

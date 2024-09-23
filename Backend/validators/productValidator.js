@@ -51,6 +51,11 @@ function userOrderValidator(userOrder) {
     return result["success"];
 }
 
+function productIdValidator(inputId){
+    const productIdSchema = idSchema;
+    const result = productIdSchema.safeParse(inputId);
+    return result["success"];
+}
 // console.log(userOrderValidator([
 //     {
 //         name: "coke",
@@ -71,6 +76,7 @@ function userOrderValidator(userOrder) {
 //     imgLink: "https://foodsandflavorsbyshilpi.com/wp-content/uploads/2016/09/FB-Thumnails-website-old-2-300x300.jpg"
 // }
 // ));
+// console.log(productIdValidator("66ee5ae9c030b20a03800811"));
 module.exports = {
-    ProductCreateValidator, userOrderValidator,productUpdateValidtor
+    ProductCreateValidator, userOrderValidator,productUpdateValidtor,productIdValidator
 }
