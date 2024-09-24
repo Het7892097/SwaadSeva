@@ -31,7 +31,7 @@ const HeroHeader = ({ isLoggedIn, isAdmin }) => {
          {/* Right Side: Image */}
          <div className="md:w-1/2 md:pl-4">
             <img
-              src="src\assetful\svgviewer-output.svg" // Replace with actual image URL
+              src="\src\Assets\about-background-image.png" // Replace with actual image URL
               alt="Healthy Food"
               className="rounded-lg  object-cover w-full h-full" // Updated classes
             />

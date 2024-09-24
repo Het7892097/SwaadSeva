@@ -17,6 +17,15 @@ const Taskbar = ({ isLoggedIn, isAdmin }) => {
   return (
     <nav className="bg-transparent mx-auto m-2 border-orange-600 border-2 rounded-lg shadow-2xl shadow-red-300 w-full max-w-7xl px-4 py-2">
       <div className="flex justify-between items-center">
+         {/* Responsive Burger Menu (Mobile view) */}
+      <div className="md:hidden">
+        <button onClick={toggleMenu} className="text-gray-600 hover:text-black focus:outline-none">
+          {/* Burger Icon */}
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
         {/* Left Side: Logo */}
         <div className="flex-shrink-0">
           <a href="/" className="text-lg md:text-2xl font-bold text-black">
@@ -50,7 +59,7 @@ const Taskbar = ({ isLoggedIn, isAdmin }) => {
           )}
         </div>
 
-        {/* User Avatar and Cart */}
+        {/* User Avatar and Cart */} 
         <div className="flex items-center space-x-4">
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -109,16 +118,9 @@ const Taskbar = ({ isLoggedIn, isAdmin }) => {
             </ul>
           </div>
         </div>
-      </div>
+      
 
-      {/* Responsive Burger Menu (Mobile view) */}
-      <div className="md:hidden">
-        <button onClick={toggleMenu} className="text-gray-600 hover:text-black focus:outline-none">
-          {/* Burger Icon */}
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
-        </button>
+     
       </div>
 
       {/* Mobile Menu Dropdown */}
