@@ -1,0 +1,156 @@
+/* Header Hero */
+.header-hero {
+    position: absolute;
+    width: 100%; /* Change to 100% for responsiveness */
+    height: 100vh; /* Change to 100vh for full viewport height */
+    left: 0;
+    top: 0;
+}
+
+/* Hero Background */
+.hero-background {
+    position: absolute;
+    width: 1920px;
+    height: 950px;
+    left: 9px;
+    top: -1px;
+    background: #FFFFFF;
+}
+
+/* Scroll Down */
+.scroll-down {
+    position: absolute;
+    visibility: hidden;
+    width: 81px;
+    height: 94px;
+    left: 920px;
+    top: 820px;
+}
+
+/* Hero Text */
+.hero-text {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%); /* Center the text */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #4F4F4F;
+}
+
+/* Line */
+.line {
+    position: absolute;
+    left: 50%;
+    top: 10.92%;
+    transform: translateX(-50%) rotate(90deg);
+    border: 1px solid #828282;
+}
+
+/* Background */
+.bg {
+    position: absolute;
+    width: 1359.93px;
+    height: 1369.61px;
+    left: 853px;
+    top: -443px;
+}
+
+/* Vector */
+.vector {
+    position: absolute;
+    width: 950.54px;
+    height: 979.6px;
+    left: 2212.93px;
+    top: 247.04px;
+    background: #195A00;
+    transform: matrix(-0.7, 0.71, -0.71, -0.7, 0, 0);
+}
+
+/* Mask Group */
+.mask-group {
+    position: absolute;
+    width: 1168px;
+    height: 780px;
+    left: 999px;
+    top: -71.68px;
+}
+
+/* Image 1 */
+.image1 {
+    position: absolute;
+    width: 1168px;
+    height: 780px;
+    left: 999px;
+    top: -71.68px;
+    background: url('path/to/your/image1.png') no-repeat center center;
+    background-size: cover;
+}
+
+/* Vector 2 */
+.vector2 {
+    position: absolute;
+    width: 949px;
+    height: 978px;
+    left: 2230px;
+    top: 279px;
+    background: rgba(255, 255, 255, 0.1);
+    transform: matrix(-0.7, 0.71, -0.71, -0.7, 0, 0);
+}
+
+/* Unsplash Images */
+.unsplash-image1 {
+    position: absolute;
+    width: 434.52px;
+    height: 365.59px;
+    left: 998px;
+    top: 368px;
+    background: url('path/to/your/unsplash_image1.png') no-repeat center center;
+    background-size: cover;
+    transform: rotate(23.37deg);
+}
+
+.unsplash-image2 {
+    position: absolute;
+    width: 225.14px;
+    height: 282.79px;
+    left: 1515.46px;
+    top: 765.4px;
+    background: url('path/to/your/unsplash_image2.png') no-repeat center center;
+    background-size: cover;
+    transform: rotate(128.85deg);
+}
+
+.unsplash-image3 {
+    position: absolute;
+    width: 214.47px;
+    height: 276.31px;
+    left: 871px;
+    top: 412.15px;
+    background: url('path/to/your/unsplash_image3.png') no-repeat center center;
+    background-size: cover;
+    transform: rotate(-66.81deg);
+}
+
+.unsplash-image4 {
+    position: absolute;
+    width: 712px;
+    height: 665px;
+    left: 1001px;
+    top: 143px;
+    background: url('path/to/your/unsplash_image4.png') no-repeat center center;
+    background-size: cover;
+}
+
+/* Navbar */
+.navbar {
+    position: absolute;
+    visibility: hidden;
+    width: 1320px;
+    height: 46px;
+    left: 300px;
+    top: 50px;
+}

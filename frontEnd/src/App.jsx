@@ -6,7 +6,7 @@ import SignUpPage from './pages/SignUp'
 function App() {
   const [count, setCount] = useState(0)
     return <div id="Parent">
-    <SignInPage/>
+    <HomePage/>
     </div>
   }
 
