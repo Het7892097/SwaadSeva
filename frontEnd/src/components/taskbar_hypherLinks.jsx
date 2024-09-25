@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HomeIcon } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
-import { userAtom } from "../store/user";
+import { userAtom } from "../store/atoms/user";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 const Taskbar = () => {

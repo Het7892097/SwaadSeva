@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HomeIcon } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
-import { userAtom } from "../store/user";
+import { userAtom } from "../store/atoms/user";
 import { useRecoilValue } from "recoil";
 const Taskbar = () => {
    // State for menu toggle
@@ -186,7 +186,7 @@ const Taskbar = () => {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
               >
                 <li>
-                  <a className="justify-between">Profile<span className="badge">New</span></a>
+                  <a className="justify-between">Profile<span className="font-bold">{currentUser.name? currentUser.name:"RandomUser"}</span></a>
                 </li>
                 <li><a>Settings</a></li>
                 <li><a>Logout</a></li>

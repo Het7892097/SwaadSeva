@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import Taskbar from "../components/taskbar";
 import { useRecoilState } from "recoil";
-import { userAtom } from "../store/user";
+import { userAtom } from "../store/atoms/user";
 import { useNavigate } from "react-router-dom";
 const baseUrl = "http://localhost:3050/api/v1";
 export default function SignUpPage() {
@@ -14,10 +14,10 @@ export default function SignUpPage() {
     isAdmin: false, // For admin selection
     adminKey: "", // Admin key, shown if isAdmin is true
   });
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const [currentUser,setCurrentUser]=useRecoilState(userAtom);
+  const [currentUser, setCurrentUser] = useRecoilState(userAtom);
 
   console.log(currentUser); //for debugging
 
@@ -59,17 +59,17 @@ export default function SignUpPage() {
 
       // Handle success
       if (response.status == 200) {
-        localStorage.setItem("authorization",response.data.token);
+        localStorage.setItem("authorization", response.data.token);
         console.log("User creation success");
         setCurrentUser({
-          mobNo:formData.mobNo,
-          name:formData.fName,
-          isAdmin:formData.isAdmin
-        })
+          mobNo: formData.mobNo,
+          name: formData.fName,
+          isAdmin: formData.isAdmin,
+        });
         setSuccess(true);
-        setTimeout(()=>{
+        setTimeout(() => {
           navigate("/");
-        },1000)
+        }, 1000);
       }
     } catch (error) {
       // Handle error cases
@@ -87,8 +87,7 @@ export default function SignUpPage() {
         } else if (error.response.status === 409) {
           setError("User already exists, try signing up");
           console.error(error.message);
-        } 
-        else {
+        } else {
           setError(
             "Internal Server problem, try contacting Owner or technician"
           );
@@ -104,13 +103,15 @@ export default function SignUpPage() {
     return (
       <div>
         <div className="bg-gradient-to-br from-yellow-100 to-orange-100 min-h-screen flex flex-col">
-        <Taskbar />
+          <Taskbar />
           <div className="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-4">
             <div className="bg-white bg-opacity-90 px-8 py-10 rounded-lg shadow-lg text-black w-full">
               <h1 className="mb-8 text-3xl text-center font-bold">
                 {success ? "User Creation Successful" : "Sign Up"}
               </h1>
-              {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+              {error && (
+                <p className="text-red-500 text-center mb-4">{error}</p>
+              )}
               {!success && (
                 <form onSubmit={handleSubmit}>
                   {/* Full Name Field */}
@@ -124,7 +125,7 @@ export default function SignUpPage() {
                       required
                     />
                   </div>
-  
+
                   {/* Mobile Number Field */}
                   <div className="flex items-center border border-grey-light rounded mb-4">
                     <input
@@ -138,7 +139,7 @@ export default function SignUpPage() {
                       title="Please enter a valid 10-digit Indian mobile number starting with 7, 8, or 9."
                     />
                   </div>
-  
+
                   {/* Password Field */}
                   <div className="flex items-center border border-grey-light rounded mb-4">
                     <input
@@ -150,7 +151,7 @@ export default function SignUpPage() {
                       required
                     />
                   </div>
-  
+
                   {/* Confirm Password Field */}
                   <div className="flex items-center border border-grey-light rounded mb-4">
                     <input
@@ -162,7 +163,7 @@ export default function SignUpPage() {
                       required
                     />
                   </div>
-  
+
                   {/* Admin User Selection */}
                   <div className="flex items-center mb-4">
                     <input
@@ -174,7 +175,7 @@ export default function SignUpPage() {
                     />
                     <label className="text-gray-600">Register as Admin</label>
                   </div>
-  
+
                   {/* Admin Key Field (only show if user is admin) */}
                   {formData.isAdmin && (
                     <div className="flex items-center border border-grey-light rounded mb-4">
@@ -188,7 +189,7 @@ export default function SignUpPage() {
                       />
                     </div>
                   )}
-  
+
                   <button
                     type="submit"
                     className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1"

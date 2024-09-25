@@ -3,6 +3,8 @@ import { FaShoppingCart, FaCreditCard, FaDice } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Taskbar from "../components/taskbar";
+import { useRecoilValue } from "recoil";
+import { cartAtom } from "../store/atoms/cart";
 
 const cartItems = [
   { name: "Paneer Tikka", quantity: 2, price: 12.99 },
@@ -28,11 +30,14 @@ const OrderPage = ({ orderId }) => (
 );
 
 const CheckoutForm = () => {
+  const cart=useRecoilValue(cartAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [orderId, setOrderId] = useState(null);
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState(null); // State to track selected payment option
 
+  console.log(cart);
+  
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0

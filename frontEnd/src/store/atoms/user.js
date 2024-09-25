@@ -6,4 +6,4 @@ export const userAtom=atom({
         name: '',
         isAdmin: false,
     },
-})
+});
