@@ -7,10 +7,9 @@ import Explore from './pages/Explore' //triggers error when category with empty 
 import OrderPage from './pages/OrderFood'
 import EditFoodPage from './pages/FoodListEditor'
 import OrdersToday from './pages/Orders'
-import Checkout from './pages/backupCheckout'
-import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AboutUs from './components/AboutUs'
-import Taskbar from './components/taskbar'
+import Checkout from './pages/Checkouter'
 function App() {
   const [count, setCount] = useState(0)
     return <BrowserRouter>

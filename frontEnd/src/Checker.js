@@ -1,9 +1,6 @@
 import axios from "axios";
-axios.post("http://localhost:3050/api/v1/user/detailer", {
+axios.get("http://localhost:3050/api/v1/product/categLister", {
   // Request body data here (if any)
-}, {
-  headers: {
-      authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JObyI6Iis5MTgyMDA3NDk0NjAiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3MjcyODgxNTEsImV4cCI6MTcyODE1MjE1MX0.OuIhYElY4xf-rXFJLVaorpeOEPv2KfdMKtkMPmPLkeA"  }
 })
 .then((response) => {
   console.log(response.data); // Log response data

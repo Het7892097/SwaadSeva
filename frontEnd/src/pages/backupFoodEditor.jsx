@@ -148,35 +148,12 @@ const FoodListEditor = () => {
   };
   
 
-  const handleDelete = (foodItemId) => {
-    axios
-      .delete(`http://localhost:3050/api/v1/product/delete`, {
-        headers: {
-          Authorization: token, // Replace with actual token
-        },
-        data: {
-          _id: foodItemId, // Pass the food item ID in the request body
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          alert("Deletion successful!"); // Alert for successful deletion
-          setUpdateFlag(prevFlag => !prevFlag); // Toggle updateFlag to trigger refetch
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          if (error.response.status === 400) {
-            alert("Product not exists"); // Alert for product not existing
-          } else if (error.response.status === 500) {
-            alert("Deletion failed"); // Alert for deletion failure
-          }
-        } else {
-          console.error("Error:", error.message);
-        }
-      });
+  const handleDelete = (foodItem) => {
+    const categoryIndex = foodItems.findIndex(item => item._id === selectedCategory);
+    foodItems[categoryIndex].products = foodItems[categoryIndex].products.filter(item => item.name !== foodItem.name);
+    setIsModalOpen(false); // Close modal after deleting
   };
-  
+
   return (
     <div className="p-4">
         <Taskbar/>

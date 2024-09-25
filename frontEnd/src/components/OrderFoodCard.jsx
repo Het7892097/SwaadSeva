@@ -5,7 +5,7 @@ const OrderFoodCard = ({ item, cbfunc,func}) => {
     return (
         <div className="card border-2 border-red-700 card-compact bg-base-100 w-72 shadow-md p-3">
             <figure >
-                <img src={altImageLink} alt="" className=" border border-black h-40 w-full object-cover" />
+                <img src={item.imgLink?item.imgLink:altImageLink} alt="NotFound" className=" border border-black h-40 w-full object-cover" />
             </figure>
             <div className="card-body p-2">
                 <h2 className="card-title text-lg">{item.name}</h2>

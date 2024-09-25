@@ -8,6 +8,7 @@ const FoodModal = ({ isOpen, onClose, foodItem, onSave, onDelete }) => {
         imgLink: '',
         desc: '',
         category: '',
+        veg: false,  // Add veg field here
     });
 
     const [errors, setErrors] = useState({}); // To store error messages
@@ -23,7 +24,8 @@ const FoodModal = ({ isOpen, onClose, foodItem, onSave, onDelete }) => {
                 imgLink: '',
                 desc: '',
                 category: '',
-            }); // For new item
+                veg: false,  // Reset veg field for new item
+            });
         }
     }, [foodItem]);
 
@@ -147,6 +149,18 @@ const FoodModal = ({ isOpen, onClose, foodItem, onSave, onDelete }) => {
                             ))}
                         </select>
                         {errors.category && <p className="text-red-500">{errors.category}</p>}
+                    </div>
+                    <div className="mb-4">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="veg"
+                                checked={formData.veg}
+                                onChange={handleChange}
+                                className="mr-2"
+                            />
+                            Vegetarian
+                        </label>
                     </div>
                     <div className="mb-4">
                         <label className="flex items-center">

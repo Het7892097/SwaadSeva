@@ -71,6 +71,7 @@ const OrderPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [productList,setProductList]=useState([]);
+    // console.log(cart);
     const categories = [
         "Beverages", 
         "Appetizers", 
@@ -102,43 +103,41 @@ const OrderPage = () => {
       }, []);
 
       const addToCart = (item) => {
-        const currentQuantity = cart.reduce((acc, cartItem) => acc + (cartItem.name === item.name ? cartItem.quantity : 0), 0);
-        const totalQuantity = currentQuantity + 1;
-    
-        if (totalQuantity > 15) {
-            setIsModalOpen(true);
-            return;
-        }
-    
-        const existingItemIndex = cart.findIndex(cartItem => cartItem.name === item.name);
-        if (existingItemIndex > -1) {
-            // Create a new cart array to avoid direct mutation
-            const updatedCart = cart.map((cartItem, index) => {
-                if (index === existingItemIndex) {
-                    // Return a new object with updated quantity
-                    return { ...cartItem, quantity: cartItem.quantity + 1 };
-                }
-                return cartItem; // Return the existing item unchanged
-            });
-            setCart(updatedCart);
-        } else {
-            // Item is not in the cart, add it with quantity 1
-            setCart([...cart, { ...item, quantity: 1 }]);
-        }
-    };
+        setCart((prevCart) => {
+          const existingItem = prevCart.find(cartItem => cartItem.name === item.name);
+          if (existingItem) {
+            // Update the quantity of the existing item
+            const updatedCart = prevCart.map(cartItem =>
+              cartItem.name === item.name
+                ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                : cartItem
+            );
+            console.log("Cart after updating quantity:", updatedCart);
+            return updatedCart;
+          } else {
+            // Add new item with name and quantity 1
+            const newCart = [...prevCart, { name: item.name, quantity: 1 }];
+            console.log("Cart after adding new item:", newCart);
+            return newCart;
+          }
+        });
+      };
+      
 
     const removeFromCart = (itemName) => {
-        const updatedCart = cart.reduce((acc, item) => {
-            if (item.name === itemName) {
-                if (item.quantity > 1) {
-                    acc.push({ ...item, quantity: item.quantity - 1 });
+        setCart((prevCart) => {
+            return prevCart.reduce((acc, cartItem) => {
+                if (cartItem.name === itemName) {
+                    // Decrease quantity or remove item if quantity is 1
+                    if (cartItem.quantity > 1) {
+                        acc.push({ name: cartItem.name, quantity: cartItem.quantity - 1 });
+                    }
+                } else {
+                    acc.push(cartItem);
                 }
-            } else {
-                acc.push(item);
-            }
-            return acc;
-        }, []);
-        setCart(updatedCart);
+                return acc;
+            }, []);
+        });
     };
 
     const handleCategoryChange = (categoryIndex) => {
