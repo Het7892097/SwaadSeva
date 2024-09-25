@@ -1,5 +1,5 @@
 const ConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
-  console.log("Modal props:", { isOpen, onClose, onConfirm }); // Check if props are coming through
+  // console.log("Modal props:", { isOpen, onClose, onConfirm }); // Check if props are coming through
 
   if (!isOpen) return null;
 

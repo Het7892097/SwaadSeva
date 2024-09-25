@@ -3,6 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx}",
+    'node_modules/preline/dist/*.js',
   ],
   daisyui: {
     themes: ["light"],
@@ -22,5 +23,6 @@ export default {
   },
   plugins: [
     require('daisyui'),
+    require('preline/plugin'),
   ],
 }

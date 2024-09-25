@@ -89,7 +89,7 @@ export default function SignUpPage() {
     return (
       <div>
         <div className="bg-gradient-to-br from-yellow-100 to-orange-100 min-h-screen flex flex-col">
-        <Taskbar />
+        <Taskbar isAdmin={false} isLoggedIn={false}/>
           <div className="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-4">
             <div className="bg-white bg-opacity-90 px-8 py-10 rounded-lg shadow-lg text-black w-full">
               <h1 className="mb-8 text-3xl text-center font-bold">

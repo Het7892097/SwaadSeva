@@ -16,7 +16,7 @@ const HeroHeader = ({ isLoggedIn, isAdmin }) => {
               Enjoy Healthy Life & Tasty Food.
             </h1>
             <p className="text-gray-500 mt-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Varius sed pharetra dictum neque massa congue.
+            Discover a world of delicious and nutritious meals designed to fuel your healthy lifestyle.
             </p>
             <div className="mt-6 flex space-x-4">
               <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-all">

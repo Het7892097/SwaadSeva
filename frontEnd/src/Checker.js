@@ -8,8 +8,8 @@ import axios from "axios";
     console.log(response.data); // Log response data
   })
   .catch((error) => {
-    if(error.response){console.error("Error in POST request:", error.response.status);} // Log error}
-       else if(error.request){console.error("Error in POST request:", error.request); // Log error} 
+    if(error.response){console.error("Error in POST request1:", error.response.status);} // Log error}
+       else if(error.request){console.error("Error in POST request2:", error.request); // Log error} 
         }
     else {console.error(e.message)} });
 
