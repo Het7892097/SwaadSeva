@@ -3,6 +3,9 @@ import { useState } from "react";
 import axios from "axios";
 import Taskbar from "../components/taskbar";
 import ConfirmationModal from "../components/ConfirmationModal"; 
+import { userAtom } from "../store/user";
+import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 
 const baseUrl = "http://localhost:3050/api/v1";
 
@@ -11,10 +14,15 @@ export default function SignInPage() {
     mobNo: "",
     password: "",
   });
+
+  const navigate=useNavigate();
+
+  const [currentUser,setCurrentUser]=useRecoilState(userAtom);
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false); // Control modal visibility
   const [success, setSuccess] = useState(""); // To display success messages
 
+  console.log(currentUser);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -33,7 +41,16 @@ export default function SignInPage() {
       if (response.status === 200) {
         localStorage.setItem("authorization", response.data.token);
         setSuccess("User created successfully");
-        setShowModal(false); // Close modal after successful signup
+        setCurrentUser({
+          mobNo:formData.mobNo,
+          name:"Random User",
+          isAdmin:false,
+        });
+        setShowModal(false);
+        setTimeout(()=>{
+          navigate("/");
+        },1000)
+         // Close modal after successful signup
       }
     } catch (error) {
       if (error.response) {
@@ -54,7 +71,15 @@ export default function SignInPage() {
 
       if (response.status === 200) {
         localStorage.setItem("authorization", response.data.token);
+        setCurrentUser({
+          mobNo:formData.mobNo,
+          name:response.data.name,
+          isAdmin:response.data.isAdmin
+        })
         setSuccess("User is valid");
+        setTimeout(()=>{
+          navigate("/");
+        },1000)
       }
     } catch (error) {
       if (error.response) {
@@ -73,7 +98,7 @@ export default function SignInPage() {
     <>
         
       <div className="bg-gradient-to-br from-yellow-100 to-orange-100 min-h-screen flex flex-col">
-      <Taskbar isAdmin={false} isLoggedIn={false}/>
+      <Taskbar />
         <div className="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-4">
           <div className="bg-white bg-opacity-90 px-8 py-10 rounded-lg shadow-lg text-black w-full">
             <h1 className="mb-8 text-3xl text-center font-bold">Sign In</h1>

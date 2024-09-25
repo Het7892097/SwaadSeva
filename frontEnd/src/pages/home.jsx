@@ -9,7 +9,7 @@ import Footer from "../components/Footer"
 export default function HomePage(){
 
     return <div className="max-h-fit max-w-full">
-        <Taskbar isAdmin={false} isLoggedIn={true}/>
+        <Taskbar/>
     <HeroHeader/>
     <AboutUs/>
     <CategoryCarousel/>

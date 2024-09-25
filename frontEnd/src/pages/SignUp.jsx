@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import Taskbar from "../components/taskbar";
+import { useRecoilState } from "recoil";
+import { userAtom } from "../store/user";
+import { useNavigate } from "react-router-dom";
 const baseUrl = "http://localhost:3050/api/v1";
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -11,8 +14,12 @@ export default function SignUpPage() {
     isAdmin: false, // For admin selection
     adminKey: "", // Admin key, shown if isAdmin is true
   });
+  const navigate=useNavigate();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [currentUser,setCurrentUser]=useRecoilState(userAtom);
+
+  console.log(currentUser); //for debugging
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -54,7 +61,15 @@ export default function SignUpPage() {
       if (response.status == 200) {
         localStorage.setItem("authorization",response.data.token);
         console.log("User creation success");
+        setCurrentUser({
+          mobNo:formData.mobNo,
+          name:formData.fName,
+          isAdmin:formData.isAdmin
+        })
         setSuccess(true);
+        setTimeout(()=>{
+          navigate("/");
+        },1000)
       }
     } catch (error) {
       // Handle error cases
@@ -89,7 +104,7 @@ export default function SignUpPage() {
     return (
       <div>
         <div className="bg-gradient-to-br from-yellow-100 to-orange-100 min-h-screen flex flex-col">
-        <Taskbar isAdmin={false} isLoggedIn={false}/>
+        <Taskbar />
           <div className="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-4">
             <div className="bg-white bg-opacity-90 px-8 py-10 rounded-lg shadow-lg text-black w-full">
               <h1 className="mb-8 text-3xl text-center font-bold">

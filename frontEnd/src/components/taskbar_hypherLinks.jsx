@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { HomeIcon } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
 import { userAtom } from "../store/user";
+import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 const Taskbar = () => {
    // State for menu toggle
@@ -21,9 +22,10 @@ const Taskbar = () => {
    }, [currentUser]); // Dependency on currentUser
  
    // Debugging purpose
-   console.log(currentUser);
+   console.log(currentUser)
+
   const navigate = useNavigate();
-  
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -56,78 +58,77 @@ const Taskbar = () => {
         </div>
         {/* Left Side: Logo */}
         <div className="flex-shrink-0">
-          <button
-            onClick={() => navigate("/")}
-            className="text-lg md:text-2xl font-bold text-black"
-          >
+          <a href="/" className="text-lg md:text-2xl font-bold text-black">
             <span className="text-green-700">Foodie</span>Space
-          </button>
+          </a>
         </div>
 
         {/* Right Side: Navigation Links */}
         <div className="hidden md:flex items-center space-x-8">
-          <button
-            onClick={() => navigate("/")}
+          <a
+            href="/"
             className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium hover:underline underline-offset-4"
           >
             Home
-          </button>
-          <button
-            onClick={() => navigate("/explore")}
+          </a>
+          <a
+            href="/explore"
             className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
           >
             Explore
-          </button>
-          <button
-            onClick={() => navigate("/about")}
+          </a>
+          <a
+            href="/about"
             className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
           >
             About Us
-          </button>
+          </a>
 
           {!isLoggedIn ? (
             <>
-              <button
-                onClick={() => navigate("/signin")}
+              <a
+                href="/signin"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Login
-              </button>
-              <button
-                onClick={() => navigate("/signup")}
+              </a>
+              <a
+                href="/signup"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Signup
-              </button>
+              </a>
             </>
           ) : isAdmin ? (
             <>
-              <button
-                onClick={() => navigate("/admin/orders")}
+              <a
+                href="/admin/orders"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Today’s Orders
-              </button>
-              <button
-                onClick={() => navigate("/admin/editfood")}
+              </a>
+              <a
+                href="/admin/editfood"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Edit Products
-              </button>
-              <button
-                onClick={() => navigate("/order")}
+              </a>
+              <a
+                href="/order"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Order
-              </button>
+              </a>
             </>
           ) : (
-            <button
-              onClick={() => navigate("/order")}
-              className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
-            >
-              Order
-            </button>
+            <>
+              <a
+                href="/order"
+                className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
+              >
+                Order
+              </a>
+            </>
           )}
         </div>
 
@@ -135,7 +136,11 @@ const Taskbar = () => {
         {isLoggedIn && (
           <div className="flex items-center space-x-4">
             <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle"
+              >
                 <div className="indicator">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -163,17 +168,22 @@ const Taskbar = () => {
                   <span className="text-info">Subtotal: $999</span>
                   <div className="card-actions">
                     <button
-                      onClick={() => navigate("/checkout")}
                       className="btn btn-primary btn-block"
+                      onClick={() => navigate("/checkout")}
                     >
                       Checkout
+                      {/* Checkout //on click go to /checkout */}
                     </button>
                   </div>
                 </div>
               </div>
             </div>
             <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
                 <div className="w-10 rounded-full">
                   <img
                     alt="User Avatar"
@@ -186,10 +196,17 @@ const Taskbar = () => {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
               >
                 <li>
-                  <a className="justify-between">Profile<span className="badge">New</span></a>
+                  <a className="justify-between">
+                    Profile
+                    <span className="badge">New</span>
+                  </a>
                 </li>
-                <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
+                <li>
+                  <a>Settings</a>
+                </li>
+                <li>
+                  <a>Logout</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -199,68 +216,74 @@ const Taskbar = () => {
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
         <div className="md:hidden flex flex-col space-y-2 mt-2 px-4">
-          <button
-            onClick={() => navigate("/")}
+          <a
+            href="/"
             className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
           >
+            {" "}
             Home
-          </button>
-          <button
-            onClick={() => navigate("/explore")}
+          </a>
+          <a
+            href="/explore"
             className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
           >
+            {" "}
             Explore
-          </button>
-          <button
-            onClick={() => navigate("/about")}
+          </a>
+          <a
+            href="/about"
             className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
           >
+            {" "}
             About
-          </button>
+          </a>
 
           {!isLoggedIn ? (
             <>
-              <button
-                onClick={() => navigate("/signin")}
+              <a
+                href="/signin"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Login
-              </button>
-              <button
-                onClick={() => navigate("/signup")}
+              </a>
+              <a
+                href="/signup"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Signup
-              </button>
+              </a>
             </>
           ) : isAdmin ? (
             <>
-              <button
-                onClick={() => navigate("/order")}
+              <a
+                href="/order"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Order
-              </button>
-              <button
-                onClick={() => navigate("/admin/orders")}
+              </a>
+              <a
+                href="/admin/orders"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Today’s Orders
-              </button>
-              <button
-                onClick={() => navigate("/admin/editfood")}
+              </a>
+
+              <a
+                href="/admin/editfood"
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Edit Products
-              </button>
+              </a>
             </>
           ) : (
-            <button
-              onClick={() => navigate("/order")}
-              className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
-            >
-              Order
-            </button>
+            <>
+              <a
+                href="/order"
+                className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
+              >
+                Order
+              </a>
+            </>
           )}
         </div>
       )}

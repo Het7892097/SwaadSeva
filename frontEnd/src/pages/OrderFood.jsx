@@ -69,7 +69,7 @@ const OrderPage = () => {
 
     return (
         <div className="container mx-auto p-4">
-             <Taskbar isAdmin={false} isLoggedIn={true}/>
+             <Taskbar />
             <h1 className="text-4xl mt-10 font-bold mb-4">Order Food</h1>
             
             {/* Dropdown for md screens */}
