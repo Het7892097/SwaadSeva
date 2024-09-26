@@ -4,7 +4,7 @@ import axios from "axios";
 import Taskbar from "../components/taskbar";
 const Explore = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(1);
 
   const [foodList,setFoodList] = useState([]);
 

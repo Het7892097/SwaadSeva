@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import HomePage from './pages/home'
 import SignInPage from './pages/SignIn'
@@ -11,8 +11,38 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AboutUs from './components/AboutUs'
 import Checkout from './pages/Checkouter'
 import PaymentPage from './pages/PaymentPage'
+import { useRecoilState } from 'recoil'
+import { userAtom } from './store/atoms/user'
+import axios from 'axios'
+
 function App() {
-  const [count, setCount] = useState(0)
+  const[user,setUser]=useRecoilState(userAtom);
+ 
+  useEffect(() => {
+    const token = localStorage.getItem('authorization'); // Retrieve the token
+
+    if (token) {
+      axios.post("http://localhost:3050/api/v1/user/detailer", {}, {
+        headers: {
+          authorization: token // Use the retrieved token for authorization
+        }
+      })
+      .then((response) => {
+        console.log(response.data.result); // Log response data
+        const result = response.data.result;
+        setUser({
+          name: result.name,
+          mobNo: result.mobNo,
+          isAdmin: result.isAdmin // Assuming the API provides this field
+        });
+      })
+      .catch(err => {
+        console.error('Error fetching user details:', err.message);
+      });
+    }
+  }, []);
+
+
     return <BrowserRouter>
     <Routes>
       <Route path="/" element={<HomePage/>} />

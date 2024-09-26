@@ -3,23 +3,21 @@ import axios from "axios";
 
 // console.log(localStorage.getItem("authorization"));
 
-axios.post("http://localhost:3050/api/v1/user/order", {
-      userOrder: [{"name":"Bhel Puri","quantity":4,"price":60}] 
-}, {
+axios.post("http://localhost:3050/api/v1/user/detailer",{}, {
   headers: {
-      authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JObyI6Iis5MTk0MjA0MjA0MjAiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzI3MzI0ODU4LCJleHAiOjE3MjgxODg4NTh9.i6kQoyytG5Ne5KnxOYRvvibZAPjLzHt_F3K_8R3-qv4" // Use the retrieved token for authorization
+      authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JObyI6Iis5MTgyMDA3NDk0NjAiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3MjczMzE2NTUsImV4cCI6MTcyODE5NTY1NX0.1geC9McByxDGZUIfr3aRDgG-weRGEtFlT8GCAmLW4Ew" // Use the retrieved token for authorization
   }
 })
 .then((response) => {
-  console.log(response.data); // Log response data
+  console.log(response.data.result); // Log response data
 })
 .catch((error) => {
   if (error.response) {
-      console.error("Error in POST request1:", error.response.status); // Log error response status
+      console.error("Error in POST request1", error.response); // Log error response status
   } else if (error.request) {
-      console.error("Error in POST request2:", error.request); // Log error request details
+      console.error("Error in POST request2"); // Log error request details
   } else {
-      console.error("Error:", error.message); // Log any other errors
+      console.error("Error:"); // Log any other errors
   }
 });
 
