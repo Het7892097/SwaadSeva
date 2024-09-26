@@ -11,6 +11,7 @@ function userMiddleware(req,res,next){
         })
     }
     req.decodedToken=tokenValidity;
+    console.log("Passed user middleware");
     next();    
 };
 

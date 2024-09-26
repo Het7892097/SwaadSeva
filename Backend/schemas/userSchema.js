@@ -2,33 +2,32 @@ const mongo = require("mongoose");
 const { type } = require("os");
 
 const userSchema = new mongo.Schema({
-    mobNo: {
-        type: String,
-        required: true,
-        unique: true,
-    },
+  mobNo: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 
-    password: {
-        type: String,
-        required: true,
-    },
+  password: {
+    type: String,
+    required: true,
+  },
 
-    name: {
-        type: String,
-        required: true,
-    },
+  name: {
+    type: String,
+    required: true,
+  },
 
-    isAdmin: {
-        type: Boolean,
-        default: false
-    },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 
-    transactHistory: {
-        type: Array,
-    }
-
-
-})
+  transactHistory: {
+    type: Array,
+  },
+ 
+});
 
 // {
 //     "mobNo":"+918200749460",

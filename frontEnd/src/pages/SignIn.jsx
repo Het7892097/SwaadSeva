@@ -6,7 +6,7 @@ import ConfirmationModal from "../components/ConfirmationModal";
 import { userAtom } from "../store/atoms/user";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
-
+import { EyeIcon,EyeSlashIcon } from "@heroicons/react/16/solid";
 const baseUrl = "http://localhost:3050/api/v1";
 
 export default function SignInPage() {
@@ -21,6 +21,7 @@ export default function SignInPage() {
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false); // Control modal visibility
   const [success, setSuccess] = useState(""); // To display success messages
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   console.log(currentUser);
   const handleChange = (e) => {
@@ -138,13 +139,24 @@ export default function SignInPage() {
               <div className="flex items-center border border-grey-light rounded mb-4">
                 <LockClosedIcon className="h-5 w-5 text-gray-400 ml-3" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"} // Toggle between text and password
                   onChange={handleChange}
                   className="block w-full p-3 rounded-r"
                   name="password"
                   placeholder="Password"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                  className="ml-2 focus:outline-none"
+                >
+                  {showPassword ? (
+                    <EyeIcon className="h-5 w-5 text-gray-400" />
+                  ) : (
+                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
+                  )}
+                </button>
               </div>
 
               <button

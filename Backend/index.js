@@ -3,6 +3,7 @@ const cors=require("cors");
 const {portNo}=require("./utils/KeySettings")
 const mainRouter=require("./routes/index")
 const app=express();
+
 app.use(cors()); //for BE and FE to interact with each other, for seamless flow of information
 app.use(express.json()); //for accessing json content of an request
 

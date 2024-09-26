@@ -1,4 +1,5 @@
-import { atom } from "recoil";
+import { atom,selector } from "recoil";
+
 export const userAtom=atom({
     key:"userAtom",
     default: {

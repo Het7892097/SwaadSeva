@@ -1,7 +1,8 @@
-const { creator, remover, updater, logger,orderer } = require("../repository/userRepo");
+const { creator, remover, updater, logger,orderer, detailer } = require("../repository/userRepo");
 
 const userCreator = async (req, res) => {
     const result = await creator(req.body, req.params.adminKey);
+    console.log("result is"+result);
     if (result == "InvalidUserDetails") {
         return res.status(400).json({
             message: "Invalid User Details"
@@ -25,14 +26,47 @@ const userCreator = async (req, res) => {
     else {
         return res.status(200).json({
             message: "User Created Successfully",
-            token: result
+            token: result.token
         });
+    }
+}
+
+const userDetailer=async(req,res)=>{
+    console.log("Inside detailer controller");
+    // console.log(req.headers.authorization)
+    if(!req.headers.authorization){
+       return res.status(401).json({
+            message:"No Token Provided"
+        }) 
+    }
+    const result=await detailer(req.headers.authorization);
+    if(result=="InvalidToken"){
+        return res.status(404).json({
+            message:"Invalid-Token"
+        })  
+    }
+    else if(result=="ErrorFetchingUser"){
+        return res.status(500).json({
+               message:"DB Error"
+        })
+    }
+    else {
+        // console.log(result);
+        return res.status(200).json({
+            message:"User's token is valid",
+           
+           result:{
+            name:result.name,
+            mobNo:result.mobNo,
+            isAdmin:result.isAdmin
+           }
+        })
     }
 }
 
 const userLogger = async (req, res) => {
     const result = await logger(req.body);
-
+console.log(result);
     if (result == "InvalidUserDetails") {
         return res.status(400).json({
             message: "Invalid user details"
@@ -51,7 +85,9 @@ const userLogger = async (req, res) => {
     else {
         return res.status(200).json({
             message:"User is valid",
-            token:result
+            token:result.token,
+            isAdmin:result.isAdmin,
+            name:result.name
         })
     }
 }
@@ -120,5 +156,5 @@ const productOrder=async (req,res)=>{
 }
 
 module.exports = {
-    userCreator, userLogger, userRemover, userUpdater,productOrder
+    userCreator, userLogger, userRemover, userUpdater,productOrder,userDetailer
 }

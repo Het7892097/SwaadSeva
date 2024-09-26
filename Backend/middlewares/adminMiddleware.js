@@ -11,6 +11,7 @@ async function adminMiddleware(req, res, next) {
         });
     }
     else if (result == "UserIsAdmin") {
+        console.log("Passed admin middleware");
         next();
     }
     else {

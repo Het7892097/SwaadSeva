@@ -3,31 +3,47 @@ import { HomeIcon } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
 import { userAtom } from "../store/atoms/user";
 import { useRecoilValue } from "recoil";
-const Taskbar = () => {
-   // State for menu toggle
-   const [menuOpen, setMenuOpen] = useState(false);
 
-   // State for logged-in and admin status
-   const [isLoggedIn, setIsLoggedIn] = useState(false);
-   const [isAdmin, setIsAdmin] = useState(false);
- 
-   // Get the current user data from Recoil
-   const currentUser = useRecoilValue(userAtom);
- 
-   useEffect(() => {
-     // Update the isLoggedIn and isAdmin based on currentUser
-     setIsLoggedIn(currentUser.mobNo ? true : false);
-     setIsAdmin(currentUser.isAdmin || false);
-   }, [currentUser]); // Dependency on currentUser
- 
-   // Debugging purpose
-   console.log(currentUser);
+const Taskbar = () => {
+  // State for menu toggle
+  const [menuOpen, setMenuOpen] = useState(false);
+  // State for logged-in and admin status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  
+  // Get the current user data from Recoil
+  const currentUser = useRecoilValue(userAtom);
+
+  useEffect(() => {
+    // Retrieve cart data from localStorage
+    const cart = JSON.parse(localStorage.getItem("cartList")) || [];
+    const totalAmount = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const totalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
+    
+    setTotal(totalAmount);
+    setQuantity(totalQuantity);
+  }, []);
+console.log(total);
+console.log(quantity);
+  useEffect(() => {
+    // Update the isLoggedIn and isAdmin based on currentUser
+    if (currentUser) {
+      setIsLoggedIn(!!currentUser.mobNo);
+      setIsAdmin(currentUser.isAdmin || false);
+    }
+  }, [currentUser]); // Dependency on currentUser
+
+  // Debugging purpose
+  console.log(currentUser);
+  
   const navigate = useNavigate();
   
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
+ 
   return (
     <nav className="bg-transparent mx-auto m-2 border-orange-600 border-2 rounded-lg shadow-2xl shadow-red-300 w-full max-w-7xl px-4 py-2">
       <div className="flex justify-between items-center">
@@ -151,7 +167,7 @@ const Taskbar = () => {
                       d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                     />
                   </svg>
-                  <span className="badge badge-sm indicator-item">8</span>
+                  <span className="badge badge-sm indicator-item">{quantity}</span>
                 </div>
               </div>
               <div
@@ -159,8 +175,8 @@ const Taskbar = () => {
                 className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
               >
                 <div className="card-body">
-                  <span className="text-lg font-bold">8 Items</span>
-                  <span className="text-info">Subtotal: $999</span>
+                  <span className="text-lg font-bold"></span>
+                  <span className="text-info">{`Subtotal: ${total}`}</span>
                   <div className="card-actions">
                     <button
                       onClick={() => navigate("/checkout")}
@@ -186,7 +202,7 @@ const Taskbar = () => {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
               >
                 <li>
-                  <a className="justify-between">Profile<span className="font-bold">{currentUser.name? currentUser.name:"RandomUser"}</span></a>
+                  <a className="justify-between">Profile<span className="font-bold">{currentUser.name ? currentUser.name : "RandomUser"}</span></a>
                 </li>
                 <li><a>Settings</a></li>
                 <li><a>Logout</a></li>
@@ -215,7 +231,7 @@ const Taskbar = () => {
             onClick={() => navigate("/about")}
             className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
           >
-            About
+            About Us
           </button>
 
           {!isLoggedIn ? (
@@ -236,12 +252,6 @@ const Taskbar = () => {
           ) : isAdmin ? (
             <>
               <button
-                onClick={() => navigate("/order")}
-                className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
-              >
-                Order
-              </button>
-              <button
                 onClick={() => navigate("/admin/orders")}
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
@@ -252,6 +262,12 @@ const Taskbar = () => {
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
               >
                 Edit Products
+              </button>
+              <button
+                onClick={() => navigate("/order")}
+                className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
+              >
+                Order
               </button>
             </>
           ) : (

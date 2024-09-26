@@ -3,7 +3,7 @@
 
 const express=require("express");
 const router=express.Router();
-const {userCreator,userLogger,userRemover,userUpdater,productOrder}=require("../controllers/userController");
+const {userCreator,userLogger,userRemover,userUpdater,productOrder, userDetailer}=require("../controllers/userController");
 const {userMiddleware}=require("../middlewares/userMiddleware")
 
 //base route: api/v1/user
@@ -19,6 +19,13 @@ router.post("/signin",(req,res,next)=>{
     console.log("through User-signin route");
     next();
 },userLogger); 
+
+//route: api/v1/user/detailer
+router.post("/detailer",(req,res,next)=>{
+    console.log("through User-detailer route");
+    next(); 
+},userDetailer); 
+
 
 //route: api/v1/user/update
 router.patch("/update",(req,res,next)=>{

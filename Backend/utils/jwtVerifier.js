@@ -1,9 +1,11 @@
 const {secretKey}=require("./KeySettings");
 const jwt=require("jsonwebtoken");
-
+console.log(secretKey);
 function jwtVerifier(token) {
+    console.log(token);
     try {
         const decoded = jwt.verify(token, secretKey);
+        console.log(decoded)
         return decoded
     }
     catch (e) {

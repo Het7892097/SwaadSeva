@@ -1,28 +1,55 @@
 const { z } = require("zod");
 
-const idSchema=z.string().length(24)
-const nameSchema = z.string().min(3).max(15);
-const priceSchema= z.number().min(5).max(2000);
-const descSchema=z.string().min(5).max(50);
-const categorySchema=z.number().min(1).max(8);
-const boolSchema= z.boolean();
-const urlSchema=z.string().url();
-//An Validator for checking the fields while adding an Product
+const idSchema = z.string().length(24, { message: "ID must be exactly 24 characters long." });
+
+const nameSchema = z.string()
+  .min(3, { message: "Name must be at least 3 characters long." })
+  .max(25, { message: "Name must not exceed 25 characters." });
+
+const priceSchema = z.number()
+  .min(5, { message: "Price must be at least 5." })
+  .max(2000, { message: "Price must not exceed 2000." });
+
+const descSchema = z.string()
+  .min(5, { message: "Description must be at least 5 characters long." })
+  .max(50, { message: "Description must not exceed 50 characters." });
+
+const categorySchema = z.number()
+  .min(1, { message: "Category must be between 1 and 8." })
+  .max(8, { message: "Category must be between 1 and 8." });
+
+const boolSchema = z.boolean().refine(val => val === true, {
+  message: "This field must be true."
+});
+
+const urlSchema = z.string().url({ message: "Please provide a valid URL." });
+
 function ProductCreateValidator(reqBody) {
     const productZSchema = z.object({
-        _id:idSchema.optional(),
         name: nameSchema,
         price: priceSchema,
-        desc:descSchema ,
+        desc: descSchema,
         category: categorySchema,
-        veg:boolSchema,
-        isAvailable:boolSchema ,
+        veg: boolSchema,
+        isAvailable: boolSchema,
         imgLink: urlSchema
     });
 
     const result = productZSchema.safeParse(reqBody);
-    return result["success"];
+
+    // Log the validation result
+    if (!result.success) {
+        console.error("Validation failed with the following errors:");
+        result.error.errors.forEach((error) => {
+            console.error(`Field: ${error.path.join('.')} - ${error.message}`);
+        });
+    } else {
+        console.log("Validation successful!");
+    }
+
+    return result.success; // Return success status
 }
+
 function productUpdateValidtor(reqBody) {
     const productZSchema = z.object({
         _id:idSchema,

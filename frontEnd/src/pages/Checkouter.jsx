@@ -1,52 +1,98 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaShoppingCart, FaCreditCard, FaDice } from "react-icons/fa";
-// import { motion } from "framer-motion"; // Uncomment if you're using framer-motion
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { cartAtom } from "../store/atoms/cart";
-import OrderPage from "./OrderFood"; // Ensure you import OrderPage correctly
-
+import axios from "axios";
 const CartItem = ({ name, quantity, price }) => (
   <div className="flex justify-between items-center py-2 border-b border-gray-200">
     <span className="text-gray-800">{name}</span>
     <span className="text-gray-600">x{quantity}</span>
-    <span className="font-semibold">${(price * quantity).toFixed(2)}</span>
+    <span className="font-semibold">₹{(price * quantity).toFixed(2)}</span>
   </div>
 );
 
 export default function Checkout() {
-  console.log("User is fucked uip");
-
-  const cart = useRecoilValue(cartAtom);
-  
+  const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [orderId, setOrderId] = useState(null);
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState(null);
+  const token=localStorage.getItem("authorization");
+  useEffect(() => {
+    // Retrieve cart from localStorage
+    const savedCart = localStorage.getItem("cartList");
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+  }, []);
 
-  console.log(cart);
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const taxes = subtotal * 0.1;
+  const taxes = subtotal * 0.18;
   const total = subtotal + taxes;
 
   const userId = "507f191e810c19729de860ea"; // Example ObjectId
   const navigate = useNavigate();
 
-  const handlePayment = (paymentMethod) => {
+  const handlePayment = async (paymentMethod) => {
+    if (total === 0) {
+      alert("Your cart is empty. Please add items to your cart before proceeding to payment.");
+      return;
+    }
+  
     setIsLoading(true);
     setSelectedPayment(paymentMethod);
-    const newOrderId = `${userId}-${new Date().toISOString()}`;
-
-    setTimeout(() => {
-      setOrderId(newOrderId);
-      setIsOrderPlaced(true);
+  
+    try {
+      const response = await axios.post("http://localhost:3050/api/v1/user/order", {userOrder:cart}, {
+        headers: {
+          authorization: token ? token : ""
+        },
+      });
+  
+      if (response.status === 200) {
+        setOrderId(response.data.orderId); // Ensure orderId is from response
+        setIsOrderPlaced(true);
+        
+        // Clear the cart from localStorage
+        localStorage.removeItem("cartList");
+        // Clear the cart state
+        setCart([]);
+        // Optionally navigate to home page or stay on the checkout page
+        setTimeout(()=>{
+          navigate("/order");
+        },5000)
+      } else {
+        alert("An unexpected error occurred. Please try again.");
+      }
+    } catch (error) {
+      // Handle error as before
+      if (error.response) {
+        if (error.response.status === 400) {
+          alert("Invalid order details. Please check your items and try again.");
+        } else if (error.response.status === 500) {
+          alert("Order failed. Please try again later.");
+        } else {
+          alert("An unexpected error occurred. Please try again.");
+        }
+      } else {
+        alert("An error occurred while processing your payment. Please try again.");
+        console.error("Payment error:", error);
+      }
+    } finally {
       setIsLoading(false);
-      navigate("/"); // Redirect to home page
-    }, 1500);
+    }
   };
+  
 
   if (isOrderPlaced) {
-    return <OrderPage orderId={orderId} />;
+    return (
+      <div className="fixed border-2 border-black inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+          <h2 className="text-2xl font-bold mb-4">Thank You!</h2>
+          <p className="text-lg mb-4">Your order has been placed successfully.</p>
+          <p className="font-semibold">Order ID: {orderId}</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -58,21 +104,25 @@ export default function Checkout() {
             <FaShoppingCart className="mr-2" /> Cart
           </h2>
           <div className="bg-gray-50 p-4 rounded-lg">
-            {cart.map((item, index) => (
-              <CartItem key={index} {...item} />
-            ))}
+            {cart.length > 0 ? (
+              cart.map((item, index) => (
+                <CartItem key={index} {...item} />
+              ))
+            ) : (
+              <p className="text-gray-600">Your cart is empty.</p>
+            )}
             <div className="mt-4 pt-4 border-t border-gray-200">
               <div className="flex justify-between">
                 <span>Subtotal:</span>
-                <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                <span className="font-semibold">₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between mt-2">
                 <span>Taxes:</span>
-                <span className="font-semibold">${taxes.toFixed(2)}</span>
+                <span className="font-semibold">₹{taxes.toFixed(2)}</span>
               </div>
               <div className="flex justify-between mt-2 text-lg font-bold">
                 <span>Total:</span>
-                <span>${total.toFixed(2)}</span>
+                <span>₹{total.toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -92,7 +142,7 @@ export default function Checkout() {
                 {isLoading && selectedPayment === "luck" ? (
                   <span className="loading loading-ring loading-lg"></span>
                 ) : (
-                  `Pay $${total.toFixed(2)} with Luck`
+                  `Pay ₹${total.toFixed(2)} with Luck`
                 )}
               </button>
             </div>
@@ -108,7 +158,7 @@ export default function Checkout() {
                 {isLoading && selectedPayment === "cashfree" ? (
                   <span className="loading loading-ring loading-lg"></span>
                 ) : (
-                  `Pay $${total.toFixed(2)} with CashFree`
+                  `Pay ₹${total.toFixed(2)} with CashFree`
                 )}
               </button>
             </div>
@@ -117,4 +167,4 @@ export default function Checkout() {
       </div>
     </div>
   );
-};
+}

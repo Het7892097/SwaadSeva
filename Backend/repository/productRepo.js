@@ -28,29 +28,37 @@ async function nameLister(nameFilter = null) { //setting default value to null, 
         return "FetchError";
     }
 }
-async function categoryLister(categoryFilter = null) { //setting default value to null, so for checking if no input ir provided
+async function categoryLister(categoryFilter = null) {
     try {
-        if (categoryFilter === null || categoryFilter == "") {
-            // return "emptIp";
+        if (categoryFilter === null || categoryFilter === "") {
+            // No category filter, return products grouped by category
             return await Product.aggregate([
-                { $sample: { size: 15 } } // returning 15 random products
+                {
+                    $group: {
+                        _id: "$category", // Group by category field
+                        products: { $push: "$$ROOT" } // Push the entire product into the 'products' array
+                    }
+                }
             ]);
-
         }
-        //else
 
+        // If category filter is provided, return filtered products
         return await Product.find({
             category: categoryFilter
-        })
+        });
     }
-    catch (e) { 
-        console.error("Error occurred while fetching product-list"+e.message);
+    catch (e) {
+        console.error("Error occurred while fetching product-list: " + e.message);
         return "FetchError";
     }
 }
 
 
+
 async function creator(reqBody) {
+    reqBody.category=parseInt(reqBody.category);
+    reqBody.price=parseInt(reqBody.price);
+    console.log(reqBody);
     const result = ProductCreateValidator(reqBody);
 
     if (!result) {
@@ -87,7 +95,11 @@ async function creator(reqBody) {
 }
 
 async function updater(reqBody) {
-
+    console.log(reqBody);
+    if(reqBody.price){
+        reqBody.price=parseInt(reqBody.price);
+    }
+console.log(reqBody)
     const result = productUpdateValidtor(reqBody);
 
     if (!result) {

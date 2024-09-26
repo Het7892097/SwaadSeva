@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = ({ cart, removeFromCart, addToCart }) => {
+    const navigate=useNavigate();
     return (
         <div className="cart-container h-fit md:w-1/4 lg:w-1/5 bg-base-200 rounded-box p-4 mt-4 md:mt-0">
             <h2 className="text-lg font-bold">Cart</h2>
@@ -22,7 +24,7 @@ const Cart = ({ cart, removeFromCart, addToCart }) => {
             
             {cart.length > 0 && (
                 <div className="mt-4">
-                    <button className="btn btn-success w-full">Checkout</button>
+                    <button className="btn btn-success w-full" onClick={()=>navigate("/checkout")} >Checkout</button>
                 </div>
             )}
         </div>

@@ -7,7 +7,7 @@ const dbUrl = "mongodb+srv://backup525125:BP5101520@machine-4.ac0b784.mongodb.ne
 
 mongo.connect(dbUrl)
     .then(() => console.log("Successfully connected to DB"))
-    .catch(e => console.log("Some error occurred while connecting to database"))
+    .catch(e => console.log("Some error occurred while connecting to database",e))
 
 const User = mongo.model("Users", userSchema);
 const Product = mongo.model("Products", productSchema);

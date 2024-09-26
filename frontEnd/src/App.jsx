@@ -10,6 +10,7 @@ import OrdersToday from './pages/Orders'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AboutUs from './components/AboutUs'
 import Checkout from './pages/Checkouter'
+import PaymentPage from './pages/PaymentPage'
 function App() {
   const [count, setCount] = useState(0)
     return <BrowserRouter>
@@ -23,6 +24,7 @@ function App() {
       <Route path="/admin/editfood" element={<EditFoodPage/>} />
       <Route path="/admin/orders" element={<OrdersToday/>} />
       <Route path="/checkout" element={<Checkout/>} />
+      <Route path="/checkout/payment" element={<PaymentPage/>} />
     </Routes>
     </BrowserRouter>
   }
