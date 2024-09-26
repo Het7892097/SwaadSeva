@@ -3,19 +3,19 @@ import axios from "axios";
 
 // console.log(localStorage.getItem("authorization"));
 
-axios.post("http://localhost:3050/api/v1/user/detailer",{}, {
+axios.patch("http://localhost:3050/api/v1/user/completer",{orderId:"66f52fc4e383bd3f4cc677bc-15:27:19"}, {
   headers: {
       authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JObyI6Iis5MTgyMDA3NDk0NjAiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3MjczMzE2NTUsImV4cCI6MTcyODE5NTY1NX0.1geC9McByxDGZUIfr3aRDgG-weRGEtFlT8GCAmLW4Ew" // Use the retrieved token for authorization
   }
 })
 .then((response) => {
-  console.log(response.data.result); // Log response data
+  console.log(response.data); // Log response data
 })
 .catch((error) => {
   if (error.response) {
-      console.error("Error in POST request1", error.response); // Log error response status
+      console.error("Error in POST request", error.response); // Log error response status
   } else if (error.request) {
-      console.error("Error in POST request2"); // Log error request details
+      console.error("Error inrequest"); // Log error request details
   } else {
       console.error("Error:"); // Log any other errors
   }

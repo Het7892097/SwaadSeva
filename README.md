@@ -110,6 +110,7 @@ We welcome your contributions!  If you'd like to be part of the SwadSewa project
 * **Checkout Process:** A straightforward checkout process leads to a thank you page with all order details.
 * **Admin Functionality (Limited Focus):** Basic admin capabilities are included for managing orders and users.
 - **Multi-User Support**: Efficiently handle multiple user requests using a clustered Node.js setup, improving scalability and performance.
+- **Repository Structure**: Implemented a well-organized repository structure in the backend, making it easier to switch databases if necessary without affecting the overall functionality
 ### Tech Stack
 
 **Frontend:**
