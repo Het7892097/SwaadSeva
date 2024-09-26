@@ -98,7 +98,7 @@ const Taskbar = ({ aboutUsRef }) => {
             onClick={() => navigate("/")}
             className="text-lg md:text-2xl font-bold text-black"
           >
-            <span className="text-green-700">Foodie</span>Space
+            <span className="text-green-700">Swad</span>Seva
           </button>
         </div>
 
