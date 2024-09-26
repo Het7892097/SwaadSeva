@@ -1,7 +1,8 @@
 import React from 'react';
-// import Taskbar from './Taskbar'; // Assuming you have the Taskbar component already created
-
+import { useNavigate } from 'react-router-dom';
 const HeroHeader = ({ isLoggedIn, isAdmin }) => {
+  const navigate=useNavigate();
+
   return (
     <div className="relative">
     
@@ -19,10 +20,10 @@ const HeroHeader = ({ isLoggedIn, isAdmin }) => {
             Discover a world of delicious and nutritious meals designed to fuel your healthy lifestyle.
             </p>
             <div className="mt-6 flex space-x-4">
-              <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-all">
+              <button  className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-all">
                 Show more
               </button>
-              <button className="border border-green-600 text-green-600 px-6 py-2 rounded-lg hover:bg-green-100 transition-all">
+              <button onClick={()=>{navigate("/order")}} className="border border-green-600 text-green-600 px-6 py-2 rounded-lg hover:bg-green-100 transition-all">
                 Place an order
               </button>
             </div>

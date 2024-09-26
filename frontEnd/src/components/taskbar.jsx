@@ -3,8 +3,10 @@ import { HomeIcon } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
 import { userAtom } from "../store/atoms/user";
 import { useRecoilValue } from "recoil";
+import ConfirmationModal from "./ConfirmationModal";
+import { useRef } from "react";
 
-const Taskbar = () => {
+const Taskbar = ({aboutUsRef}) => {
   // State for menu toggle
   const [menuOpen, setMenuOpen] = useState(false);
   // State for logged-in and admin status
@@ -12,10 +14,22 @@ const Taskbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [total, setTotal] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
+  const navigate = useNavigate();
   
   // Get the current user data from Recoil
   const currentUser = useRecoilValue(userAtom);
+  const openModal = () => {
+    setIsModalOpen(true); // Open the modal
+  };
 
+  const handleNavigateToAboutUs = () => {
+    navigate("/", { state: { scrollTo: "about" } }); // Passing state
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Close the modal
+  };
   useEffect(() => {
     // Retrieve cart data from localStorage
     const cart = JSON.parse(localStorage.getItem("cartList")) || [];
@@ -38,12 +52,19 @@ console.log(quantity);
   // Debugging purpose
   console.log(currentUser);
   
-  const navigate = useNavigate();
+  
   
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
- 
+ const logOutHandler=()=>{
+  localStorage.removeItem("authorization");
+  closeModal();
+  setTimeout(()=>{
+    navigate("/");
+  },1000)
+  window.location.reload();
+ }
   return (
     <nav className="bg-transparent mx-auto m-2 border-orange-600 border-2 rounded-lg shadow-2xl shadow-red-300 w-full max-w-7xl px-4 py-2">
       <div className="flex justify-between items-center">
@@ -95,7 +116,7 @@ console.log(quantity);
             Explore
           </button>
           <button
-            onClick={() => navigate("/about")}
+            onClick={handleNavigateToAboutUs}
             className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 hover:text-black font-medium"
           >
             About Us
@@ -205,7 +226,7 @@ console.log(quantity);
                   <a className="justify-between">Profile<span className="font-bold">{currentUser.name ? currentUser.name : "RandomUser"}</span></a>
                 </li>
                 <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
+               <li><button onClick={openModal}>Logout</button></li>
               </ul>
             </div>
           </div>
@@ -280,6 +301,17 @@ console.log(quantity);
           )}
         </div>
       )}
+      {/* Confirmation modal for logout */}
+      <ConfirmationModal
+      func="logout"
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={() => {
+          logOutHandler();
+           // Close modal on confirm
+         
+        }}
+      />
     </nav>
   );
 };

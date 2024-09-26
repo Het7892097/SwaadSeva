@@ -1,7 +1,8 @@
 
-const AboutUs = () => {
+const AboutUs = ({ aboutUsRef }) => {
+
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-between px-4 lg:px-16 py-10">
+    <div ref={aboutUsRef} className="flex flex-col lg:flex-row items-center justify-between px-4 lg:px-16 py-10">
       {/* Grid for images */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full lg:w-1/2 mb-8 lg:mb-0">
         <div className="flex justify-center p-5">

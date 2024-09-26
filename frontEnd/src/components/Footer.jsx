@@ -1,4 +1,5 @@
-
+import { CgEnter } from "react-icons/cg";
+import { IoEnter, IoEnterOutline } from "react-icons/io5";
 const Footer = () => {
   return (
     <footer className="bg-gray-100 py-10">
@@ -16,9 +17,7 @@ const Footer = () => {
                 className="py-2 px-4 w-full border border-gray-300 rounded-l-md focus:outline-none"
               />
               <button className="bg-green-600 text-white px-4 py-2 rounded-r-md hover:bg-green-700">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M3 10l7-7m0 0l7 7M10 3v14" />
-                </svg>
+               Enter
               </button>
             </div>
             {/* Social Media Icons */}
@@ -40,7 +39,7 @@ const Footer = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 8V6a4 4 0 00-8 0v2H5a2 2 0 00-2 2v6a2 2 0 002 2h14a2 2 0 002-2v-6a2 2 0 00-2-2h-3z" />
                 </svg>
               </span>
-              Kolkata India, 3rd Floor, Office 45
+             Ahmedabad India, 3rd Floor, Office 45
             </p>
             <p className="mb-2 flex items-start">
               <span className="mr-2 text-green-600">
@@ -68,7 +67,7 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Links Section */}
+          {/* Links Section
           <div>
             <h4 className="text-xl font-semibold mb-4">Links</h4>
             <ul>
@@ -78,7 +77,7 @@ const Footer = () => {
               <li className="mb-2"><a href="#" className="text-gray-600 hover:underline">Team</a></li>
               <li><a href="#" className="text-gray-600 hover:underline">FAQ</a></li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Instagram Gallery */}
           <div>

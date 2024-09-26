@@ -172,6 +172,7 @@ export default function SignInPage() {
 
       {/* Confirmation Modal */}
       <ConfirmationModal
+      func="signup"
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleSignup}
