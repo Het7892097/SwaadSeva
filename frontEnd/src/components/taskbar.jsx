@@ -41,7 +41,8 @@ const Taskbar = ({ aboutUsRef }) => {
 
     setTotal(totalAmount);
     setQuantity(totalQuantity);
-  }, []);
+    console.log(totalAmount+" "+totalQuantity);
+  }, [localStorage.getItem("cartList")]);
   console.log(total);
   console.log(quantity);
   useEffect(() => {
@@ -98,7 +99,7 @@ const Taskbar = ({ aboutUsRef }) => {
             onClick={() => navigate("/")}
             className="text-lg md:text-2xl font-bold text-black"
           >
-            <span className="text-green-700">Swad</span>Sewa
+            <span className="text-green-700">Swaad</span>Seva
           </button>
         </div>
 
