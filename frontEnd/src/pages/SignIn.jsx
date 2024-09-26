@@ -130,8 +130,8 @@ export default function SignInPage() {
                   placeholder="Mobile Number (10 digits)"
                   onChange={handleChange}
                   required
-                  pattern="^[789]\d{9}$"
-                  title="Please enter a valid 10-digit Indian mobile number starting with 7, 8, or 9."
+                  pattern="^[6789]\d{9}$"
+                  title="Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9."
                 />
               </div>
 

@@ -4,7 +4,9 @@ import Taskbar from "../components/taskbar";
 import { useRecoilState } from "recoil";
 import { userAtom } from "../store/atoms/user";
 import { useNavigate } from "react-router-dom";
+
 const baseUrl = "http://localhost:3050/api/v1";
+
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
     fName: "",
@@ -28,6 +30,8 @@ export default function SignUpPage() {
     } else {
       setFormData({ ...formData, [name]: value });
     }
+    setError("");
+
   };
 
   const handleSubmit = async (e) => {
@@ -44,9 +48,11 @@ export default function SignUpPage() {
       setError("Admin Key is required for admin users");
       return;
     }
+    
     const url = formData.isAdmin
       ? `${baseUrl}/user/signup/${formData.adminKey}` // Admin route with adminKey
       : `${baseUrl}/user/signup/:adminKey`; // Normal user signup
+      
     try {
       // Sending signup data to backend
       const response = await axios.post(url, {
@@ -58,7 +64,8 @@ export default function SignUpPage() {
       });
 
       // Handle success
-      if (response.status == 200) {
+      if (response.status === 200) {
+        console.log(response.data);
         localStorage.setItem("authorization", response.data.token);
         console.log("User creation success");
         setCurrentUser({
@@ -99,109 +106,110 @@ export default function SignUpPage() {
     }
   };
 
-  if (!success) {
-    return (
-      <div>
-        <div className="bg-gradient-to-br from-yellow-100 to-orange-100 min-h-screen flex flex-col">
-          <Taskbar />
-          <div className="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-4">
-            <div className="bg-white bg-opacity-90 px-8 py-10 rounded-lg shadow-lg text-black w-full">
-              <h1 className="mb-8 text-3xl text-center font-bold">
-                {success ? "User Creation Successful" : "Sign Up"}
-              </h1>
-              {error && (
-                <p className="text-red-500 text-center mb-4">{error}</p>
-              )}
-              {!success && (
-                <form onSubmit={handleSubmit}>
-                  {/* Full Name Field */}
-                  <div className="flex items-center border border-grey-light rounded mb-4">
-                    <input
-                      type="text"
-                      className="block w-full p-3 rounded"
-                      name="fName"
-                      onChange={handleChange}
-                      placeholder="Full Name"
-                      required
-                    />
-                  </div>
+  return (
+    <div>
+      <div className="bg-gradient-to-br from-yellow-100 to-orange-100 min-h-screen flex flex-col">
+        <Taskbar />
+        <div className="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-4">
+          <div className="bg-white bg-opacity-90 px-8 py-10 rounded-lg shadow-lg text-black w-full">
+            <h1 className="mb-8 text-3xl text-center font-bold">
+              {success ? "User Creation Successful" : "Sign Up"}
+            </h1>
+            {success && (
+              <p className="text-green-500 text-center mb-4">User created successfully!</p>
+            )}
+            {error && (
+              <p className="text-red-500 text-center mb-4">{error}</p>
+            )}
+            {!success && (
+              <form onSubmit={handleSubmit}>
+                {/* Full Name Field */}
+                <div className="flex items-center border border-grey-light rounded mb-4">
+                  <input
+                    type="text"
+                    className="block w-full p-3 rounded"
+                    name="fName"
+                    onChange={handleChange}
+                    placeholder="Full Name"
+                    required
+                  />
+                </div>
 
-                  {/* Mobile Number Field */}
-                  <div className="flex items-center border border-grey-light rounded mb-4">
-                    <input
-                      type="tel"
-                      className="block w-full p-3 rounded"
-                      name="mobNo"
-                      onChange={handleChange}
-                      placeholder="Mobile Number (10 digits)"
-                      required
-                      pattern="^[789]\d{9}$"
-                      title="Please enter a valid 10-digit Indian mobile number starting with 7, 8, or 9."
-                    />
-                  </div>
+                {/* Mobile Number Field */}
+                <div className="flex items-center border border-grey-light rounded mb-4">
+                  <input
+                    type="tel"
+                    className="block w-full p-3 rounded"
+                    name="mobNo"
+                    onChange={handleChange}
+                    placeholder="Mobile Number (10 digits)"
+                    required
+                    pattern="^[6789]\d{9}$"
+                    title="Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9."
+                  />
+                </div>
 
-                  {/* Password Field */}
+                {/* Password Field */}
+                <div className="flex items-center border border-grey-light rounded mb-4">
+                  <input
+                    type="password"
+                    className="block w-full p-3 rounded"
+                    name="password"
+                    onChange={handleChange}
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+
+                {/* Confirm Password Field */}
+                <div className="flex items-center border border-grey-light rounded mb-4">
+                  <input
+                    type="password"
+                    className="block w-full p-3 rounded"
+                    name="confirm_Password"
+                    onChange={handleChange}
+                    placeholder="Confirm Password"
+                    required
+                  />
+                </div>
+
+                {/* Admin User Selection */}
+                <div className="flex items-center mb-4">
+                  <input
+                    type="checkbox"
+                    name="isAdmin"
+                    checked={formData.isAdmin}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  <label className="text-gray-600">Register as Admin</label>
+                </div>
+
+                {/* Admin Key Field (only show if user is admin) */}
+                {formData.isAdmin && (
                   <div className="flex items-center border border-grey-light rounded mb-4">
                     <input
                       type="password"
                       className="block w-full p-3 rounded"
-                      name="password"
+                      name="adminKey"
                       onChange={handleChange}
-                      placeholder="Password"
-                      required
+                      placeholder="Admin Key"
+                      required={formData.isAdmin}
                     />
                   </div>
+                )}
 
-                  {/* Confirm Password Field */}
-                  <div className="flex items-center border border-grey-light rounded mb-4">
-                    <input
-                      type="password"
-                      className="block w-full p-3 rounded"
-                      name="confirm_Password"
-                      onChange={handleChange}
-                      placeholder="Confirm Password"
-                      required
-                    />
-                  </div>
-
-                  {/* Admin User Selection */}
-                  <div className="flex items-center mb-4">
-                    <input
-                      type="checkbox"
-                      name="isAdmin"
-                      checked={formData.isAdmin}
-                      onChange={handleChange}
-                      className="mr-2"
-                    />
-                    <label className="text-gray-600">Register as Admin</label>
-                  </div>
-
-                  {/* Admin Key Field (only show if user is admin) */}
-                  {formData.isAdmin && (
-                    <div className="flex items-center border border-grey-light rounded mb-4">
-                      <input
-                        type="password"
-                        className="block w-full p-3 rounded"
-                        name="adminKey"
-                        onChange={handleChange}
-                        placeholder="Admin Key"
-                        required={formData.isAdmin}
-                      />
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1"
-                  >
-                    Create Account
-                  </button>
-                </form>
-              )}
-            </div>
+                <button
+                  type="submit"
+                  className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1"
+                >
+                  Create Account
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }

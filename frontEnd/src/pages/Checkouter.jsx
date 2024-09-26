@@ -59,7 +59,7 @@ export default function Checkout() {
         // Optionally navigate to home page or stay on the checkout page
         setTimeout(()=>{
           navigate("/order");
-        },5000)
+        },1500)
       } else {
         alert("An unexpected error occurred. Please try again.");
       }
