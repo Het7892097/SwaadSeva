@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import HomePage from './pages/home'
 import SignInPage from './pages/SignIn'
@@ -8,12 +8,12 @@ import OrderPage from './pages/OrderFood'
 import EditFoodPage from './pages/FoodListEditor'
 import OrdersToday from './pages/Orders'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import AboutUs from './components/AboutUs'
 import Checkout from './pages/Checkouter'
 import PaymentPage from './pages/PaymentPage'
 import { useRecoilState } from 'recoil'
 import { userAtom } from './store/atoms/user'
 import axios from 'axios'
+import RestrictedAccess from './authentication/RestrictedAccess'
 
 function App() {
   const[user,setUser]=useRecoilState(userAtom);
@@ -45,18 +45,21 @@ function App() {
 
     return <BrowserRouter>
     <Routes>
-      <Route path="/" element={<HomePage/>} />
-      <Route path="/signin" element={<SignInPage/>} />
-      <Route path="/signup" element={<SignUpPage/>} />
-      <Route path="/about" element={<AboutUs/>} /> //change it to go to home's about us
-      <Route path="/explore" element={<Explore/>} />
-      <Route path="/order" element={<OrderPage/>} />
-      <Route path="/admin/editfood" element={<EditFoodPage/>} />
-      <Route path="/admin/orders" element={<OrdersToday/>} />
-      <Route path="/checkout" element={<Checkout/>} />
-      <Route path="/checkout/payment" element={<PaymentPage/>} />
+      <Route path="/" element={<HomePage />} />
+      {/* Redirect to home if user is logged in */}
+      <Route path="/signin" element={user.name ? <Navigate to="/" /> : <SignInPage />} />
+      <Route path="/signup" element={user.name ? <Navigate to="/" /> : <SignUpPage />} />
+      <Route path="/about" element={<HomePage />} /> {/* Redirecting to HomePage */}
+      <Route path="/explore" element={<Explore />} />
+      {/* Show RestrictedAccess for unauthorized access */}
+      <Route path="/order" element={user.name ? <OrderPage /> : <RestrictedAccess />} />
+      <Route path="/admin/editfood" element={user.name && user.isAdmin ? <EditFoodPage /> : <RestrictedAccess />} />
+      <Route path="/admin/orders" element={user.name && user.isAdmin ? <OrdersToday /> : <RestrictedAccess />} />
+      <Route path="/checkout" element={user.name ? <Checkout /> : <RestrictedAccess />} />
+      <Route path="/checkout/payment" element={user.name ? <PaymentPage /> : <RestrictedAccess />} />
     </Routes>
-    </BrowserRouter>
+  </BrowserRouter>
+
   }
 
 
