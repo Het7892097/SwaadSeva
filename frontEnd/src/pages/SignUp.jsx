@@ -4,6 +4,8 @@ import Taskbar from "../components/taskbar";
 import { useRecoilState } from "recoil";
 import { userAtom } from "../store/atoms/user";
 import { useNavigate } from "react-router-dom";
+import { EyeIcon,EyeSlashIcon } from "@heroicons/react/16/solid";
+import { PhoneIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 
 const baseUrl = "http://localhost:3050/api/v1";
 
@@ -20,6 +22,7 @@ export default function SignUpPage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [currentUser, setCurrentUser] = useRecoilState(userAtom);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   console.log(currentUser); //for debugging
 
@@ -151,27 +154,51 @@ export default function SignUpPage() {
 
                 {/* Password Field */}
                 <div className="flex items-center border border-grey-light rounded mb-4">
-                  <input
-                    type="password"
-                    className="block w-full p-3 rounded"
-                    name="password"
-                    onChange={handleChange}
-                    placeholder="Password"
-                    required
-                  />
-                </div>
+                <LockClosedIcon className="h-5 w-5 text-gray-400 ml-3" />
+                <input
+                  type={showPassword ? "text" : "password"} // Toggle between text and password
+                  onChange={handleChange}
+                  className="block w-full p-3 rounded-r"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                  className="ml-2 focus:outline-none"
+                >
+                  {showPassword ? (
+                    <EyeIcon className="h-5 w-5 text-gray-400" />
+                  ) : (
+                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
+                  )}
+                </button>
+              </div>
 
                 {/* Confirm Password Field */}
                 <div className="flex items-center border border-grey-light rounded mb-4">
-                  <input
-                    type="password"
-                    className="block w-full p-3 rounded"
-                    name="confirm_Password"
-                    onChange={handleChange}
-                    placeholder="Confirm Password"
-                    required
-                  />
-                </div>
+                <LockClosedIcon className="h-5 w-5 text-gray-400 ml-3" />
+                <input
+                  type={showPassword ? "text" : "password"} // Toggle between text and password
+                  onChange={handleChange}
+                  className="block w-full p-3 rounded-r"
+                   name="confirm_Password"
+                   placeholder="Confirm Password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                  className="ml-2 focus:outline-none"
+                >
+                  {showPassword ? (
+                    <EyeIcon className="h-5 w-5 text-gray-400" />
+                  ) : (
+                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
+                  )}
+                </button>
+              </div>
 
                 {/* Admin User Selection */}
                 <div className="flex items-center mb-4">

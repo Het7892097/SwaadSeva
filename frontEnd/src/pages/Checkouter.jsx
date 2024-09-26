@@ -85,15 +85,16 @@ export default function Checkout() {
 
   if (isOrderPlaced) {
     return (
-      <div className="fixed border-2 border-black inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h2 className="text-2xl font-bold mb-4">Thank You!</h2>
-          <p className="text-lg mb-4">Your order has been placed successfully.</p>
-          <p className="font-semibold">Order ID: {orderId}</p>
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+        <div className="bg-white p-12 rounded-lg shadow-2xl text-center max-w-3xl w-full border-4 border-black-800"> {/* Increased border thickness and color */}
+          <h2 className="text-4xl font-bold mb-8">Thank You!</h2> {/* Larger font size and margin */}
+          <p className="text-2xl mb-6">Your order has been placed successfully.</p> {/* Larger font size and margin */}
+          <p className="text-xl font-semibold">Order ID: {orderId}</p> {/* Larger font size */}
         </div>
       </div>
     );
   }
+  
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-xl">
