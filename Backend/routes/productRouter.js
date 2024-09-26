@@ -3,6 +3,7 @@ const router=express.Router();
 const {adminMiddleware}=require("../middlewares/adminMiddleware");
 const {userMiddleware}=require("../middlewares/userMiddleware");
 const { productCreator,productLister,productRemover,productUpdater, productCategLister, paymentHandler } = require("../controllers/productController");
+const { productOrder } = require("../controllers/userController");
 
 //base route: api/v1/product
 
@@ -20,7 +21,9 @@ router.post("/create",(req,res,next)=>{
 },userMiddleware,adminMiddleware,productCreator);
 
 // route: api/v1/product/update
-router.patch("/update",paymentHandler);
+router.patch("/update",userMiddleware,adminMiddleware,productUpdater);
+
+
 
 // route: api/v1/product/delete
 router.delete("/delete",userMiddleware,adminMiddleware,productRemover);

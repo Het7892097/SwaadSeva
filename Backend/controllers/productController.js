@@ -101,6 +101,7 @@ const productRemover = async (req, res) => {
     }
 }
 
+
 const paymentHandler=async (req, res) => {
     const { orderId, orderAmount, customerName, customerEmail, customerPhone } = req.body;
 

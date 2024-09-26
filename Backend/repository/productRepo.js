@@ -154,7 +154,6 @@ async function ProductGetter(productId) {
 }
 
 
-
 module.exports={
 nameLister,categoryLister,creator,updater,remover
 }

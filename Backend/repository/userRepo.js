@@ -75,31 +75,29 @@ async function logger(reqBody) {
 async function detailer(token) {
   console.log(token);
   if (!token) {
-      console.error("Token not provided");
-      return "NoToken";
+    console.error("Token not provided");
+    return "NoToken";
   }
-  
+
   const tokenValidity = jwtVerifier(token);
   if (!tokenValidity) {
-      return "InvalidToken";
+    return "InvalidToken";
   } else {
-      try {
-          const targetUser = await userGetter(tokenValidity.mobNo); // Await the async function
-          return {
-              mobNo: targetUser.mobNo,
-              name: targetUser.name,
-              isAdmin: targetUser.isAdmin
-          };
-      } catch (e) {
-          console.error("Error fetching user:", e.message); // Log the error message
-          return "ErrorFetchingUser";
-      }
+    try {
+      const targetUser = await userGetter(tokenValidity.mobNo); // Await the async function
+      return {
+        mobNo: targetUser.mobNo,
+        name: targetUser.name,
+        isAdmin: targetUser.isAdmin,
+      };
+    } catch (e) {
+      console.error("Error fetching user:", e.message); // Log the error message
+      return "ErrorFetchingUser";
+    }
   }
 }
 
-async function cartMaintainer(){
-
-}
+async function cartMaintainer() {}
 
 async function updater(reqBody, decodedToken) {
   if (reqBody.mobNo) {
@@ -142,55 +140,55 @@ async function remover(decodedToken) {
 }
 
 async function orderer(userOrder, decodedToken) {
-  // console.log("decoded Token");
-  // console.log(decodedToken);
-
+  // console.log(userOrder ? userOrder : "");
+console.log("Inside user repo");
   const targetUser = await User.findOne({ mobNo: decodedToken["mobNo"] });
   if (!targetUser) {
     return "UserNotExists";
   }
 
-  // console.log("UserExists");
-
   const isValid = userOrderValidator(userOrder);
   if (!isValid) {
+    console.error("Invalid Product details");
     return "InvalidOrderDetails";
   }
-  // console.log("Valid Order-details");
-  let currentDateObj = new Date();
-  const currentDate = currentDateObj.toDateString().slice(4, 15);
-  const currentTime = currentDateObj.toTimeString().slice(0, 8);
 
-  // console.log(currentDate+" "+currentTime);
+  const currentDateObj = new Date();
+  // Use toISOString() to get a reliable date format
+  const currentDate = currentDateObj.toISOString().slice(0, 10); // Format: YYYY-MM-DD
+  const currentTime = currentDateObj.toTimeString().slice(0, 8); // Format: HH:MM:SS
+
+  // console.log(`${currentDate} ${currentTime}`);
 
   const alteredOrderList = userOrder.map((order) => ({
-    userId: targetUser._id, // Access the first element since `find()` returns an array
+    userId: targetUser._id,
     orderedTime: currentTime.toString(),
     name: order.name,
     quantity: order.quantity,
     isCompleted: false,
     orderId: `${targetUser._id}-${currentTime}`,
   }));
-  // console.log(alteredOrderList);
 
   const session = await mongo.startSession();
   session.startTransaction();
 
   try {
-    todayOrder = await Order.findOne({
+    let todayOrder = await Order.findOne({
       orderDate: currentDate,
     }).session(session);
+
     if (!todayOrder) {
       todayOrder = new Order({
         orderDate: currentDate,
         orders: [],
       });
     }
-    todayOrder.orders.push(...alteredOrderList);
 
+    todayOrder.orders.push(...alteredOrderList);
     await todayOrder.save({ session });
     await session.commitTransaction();
     session.endSession();
+
     return {
       message: "OrderedSuccessfully",
       orderId: `${targetUser._id}-${currentTime}`,
@@ -200,6 +198,30 @@ async function orderer(userOrder, decodedToken) {
     await session.abortTransaction();
     session.endSession();
     return "OrderFailed";
+  }
+}
+
+async function orderLister() {
+  const today = new Date();
+
+  // Get the start of the day (00:00:00)
+  const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+
+  // Get the end of the day (23:59:59.999)
+  const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+
+  try {
+    const orders=await Order.find({
+      orderDate: {
+        $gte: startOfDay,
+        $lte: endOfDay,
+      },
+    });
+    console.log(orders);
+    return orders;
+  } catch (e) {
+    console.error("Error while fetching Orders")
+    return "FetchError";
   }
 }
 
@@ -241,5 +263,6 @@ module.exports = {
   logger,
   adminChecker,
   orderer,
-  detailer
+  detailer,
+  orderLister
 };

@@ -3,8 +3,9 @@
 
 const express=require("express");
 const router=express.Router();
-const {userCreator,userLogger,userRemover,userUpdater,productOrder, userDetailer}=require("../controllers/userController");
-const {userMiddleware}=require("../middlewares/userMiddleware")
+const {userCreator,userLogger,userRemover,userUpdater,productOrder, userDetailer, orderGetter}=require("../controllers/userController");
+const {userMiddleware}=require("../middlewares/userMiddleware");
+const { adminMiddleware } = require("../middlewares/adminMiddleware");
 
 //base route: api/v1/user
 
@@ -44,5 +45,11 @@ router.delete("/delete",(req,res,next)=>{
     console.log("through User-delete route");
     next();
 },userMiddleware,userRemover);
+
+// route: api/v1/user/orders
+router.get("/orders",(req,res,next)=>{
+    console.log("Through orders route for getting route");
+    next();
+},userMiddleware,adminMiddleware,orderGetter)
 
 module.exports=router;

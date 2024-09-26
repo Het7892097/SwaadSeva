@@ -1,4 +1,4 @@
-const { creator, remover, updater, logger,orderer, detailer } = require("../repository/userRepo");
+const { creator, remover, updater, logger,orderer, detailer, orderLister } = require("../repository/userRepo");
 
 const userCreator = async (req, res) => {
     const result = await creator(req.body, req.params.adminKey);
@@ -26,13 +26,14 @@ const userCreator = async (req, res) => {
     else {
         return res.status(200).json({
             message: "User Created Successfully",
-            token: result.token
+            token: result
         });
     }
 }
 
 const userDetailer=async(req,res)=>{
     console.log("Inside detailer controller");
+    console.log(req.headers.authorization);
     // console.log(req.headers.authorization)
     if(!req.headers.authorization){
        return res.status(401).json({
@@ -132,7 +133,10 @@ const userRemover = async (req, res) => {
 }
 
 const productOrder=async (req,res)=>{
+    console.log("inside producOrder");
+    // console.log(req.body);
     const result=await orderer(req.body.userOrder,req.decodedToken);
+    console.log(result);
     if(result=="UserNotExists"){
         
     }
@@ -155,6 +159,22 @@ const productOrder=async (req,res)=>{
     }
 }
 
+const orderGetter=async (req,res)=>{
+    const result =await orderLister();
+    if(result=="FetchError"){
+        res.status(500).json({
+            message:"Error fetching Order List"
+        })
+    }
+    else {
+        console.log("REsult orders");
+        console.log(result[0].orders)
+        res.status(200).json({
+            todayOrders:result[0].orders
+        })
+    }
+}
+
 module.exports = {
-    userCreator, userLogger, userRemover, userUpdater,productOrder,userDetailer
+    userCreator, userLogger, userRemover, userUpdater,productOrder,userDetailer,orderGetter
 }

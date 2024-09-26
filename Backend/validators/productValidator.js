@@ -83,16 +83,7 @@ function productIdValidator(inputId){
     const result = productIdSchema.safeParse(inputId);
     return result["success"];
 }
-// console.log(userOrderValidator([
-//     {
-//         name: "coke",
-//         quantity: 2
-//     },
-//     {
-//         name: "Mung Daal",
-//         quantity: 5
-//     }
-// ]));
+// console.log(userOrderValidator([{"name":"Orange Juice","quantity":4,"price":60}]));
 // console.log(ProductCreateValidator({
 //     name: "Chole Bhature",
 //     price: 120,
