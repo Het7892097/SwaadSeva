@@ -29,7 +29,7 @@ const OrderFoodCard = ({ item, cbfunc,func}) => {
                     <button 
                         className="btn btn-primary btn-sm" 
                         onClick={() => cbfunc(item)}
-                        disabled={!item.isAvailable} // Disable if not available
+                        
                     >
                         {func}
                     </button>

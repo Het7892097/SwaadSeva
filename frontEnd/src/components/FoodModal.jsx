@@ -42,7 +42,7 @@ const FoodModal = ({ isOpen, onClose, foodItem, onSave, onDelete }) => {
         const newErrors = {};
 
         // Validate input
-        if (formData.name.length < 3 || formData.name.length > 15) {
+        if (formData.name.length < 3 || formData.name.length > 25) {
             newErrors.name = 'Name must be between 3 and 15 characters.';
         }
         if (formData.price < 5 || formData.price > 2000) {

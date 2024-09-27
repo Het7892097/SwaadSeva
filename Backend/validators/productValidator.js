@@ -18,9 +18,7 @@ const categorySchema = z.number()
   .min(1, { message: "Category must be between 1 and 8." })
   .max(8, { message: "Category must be between 1 and 8." });
 
-const boolSchema = z.boolean().refine(val => val === true, {
-  message: "This field must be true."
-});
+const boolSchema = z.boolean();
 
 const urlSchema = z.string().url({ message: "Please provide a valid URL." });
 
@@ -36,7 +34,8 @@ function ProductCreateValidator(reqBody) {
     });
 
     const result = productZSchema.safeParse(reqBody);
-
+    console.log("result");
+    console.log(result);
     // Log the validation result
     if (!result.success) {
         console.error("Validation failed with the following errors:");
@@ -46,7 +45,7 @@ function ProductCreateValidator(reqBody) {
     } else {
         console.log("Validation successful!");
     }
-
+   
     return result.success; // Return success status
 }
 
@@ -62,7 +61,9 @@ function productUpdateValidtor(reqBody) {
         imgLink:urlSchema.optional()
     });
 
+   
     const result = productZSchema.safeParse(reqBody);
+    console.log(result);
     return result["success"];
 }
 //single orderSchema

@@ -89,7 +89,7 @@ const FoodListEditor = () => {
           if (error.response) {
             switch (error.response.status) {
               case 400:
-                alert("Invalid User Details");
+                alert("Invalid Product Details");
                 break;
               case 409:
                 alert("Product Not Exists");
