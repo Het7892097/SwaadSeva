@@ -7,7 +7,7 @@ const { mongoConnectString } = require("../utils/KeySettings");
 
 mongo
   .connect(mongoConnectString)
-  .then(() => console.error("Successfully connected to DB"))
+  .then(() => console.log("Successfully connected to DB"))
   .catch((e) =>
     console.error("Some error occurred while connecting to database", e)
   );
