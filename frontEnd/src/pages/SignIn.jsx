@@ -6,7 +6,7 @@ import ConfirmationModal from "../components/ConfirmationModal";
 import { userAtom } from "../store/atoms/user";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { EyeIcon,EyeSlashIcon } from "@heroicons/react/16/solid";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 const baseUrl = "http://localhost:3050/api/v1";
 
 export default function SignInPage() {
@@ -23,7 +23,7 @@ export default function SignInPage() {
   const [success, setSuccess] = useState(""); // To display success messages
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
-  console.log(currentUser);
+  // console.log(currentUser); for checking the current user
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -40,7 +40,7 @@ export default function SignInPage() {
       });
 
       if (response.status === 200) {
-        localStorage.setItem("authorization", response.data.token);
+        localStorage.setItem("authtoken", response.data.token);
         setSuccess("User created successfully");
         setCurrentUser({
           mobNo: formData.mobNo,
@@ -75,7 +75,7 @@ export default function SignInPage() {
       });
 
       if (response.status === 200) {
-        localStorage.setItem("authorization", response.data.token);
+        localStorage.setItem("authtoken", response.data.token);
         setCurrentUser({
           mobNo: formData.mobNo,
           name: response.data.name,
@@ -172,7 +172,7 @@ export default function SignInPage() {
 
       {/* Confirmation Modal */}
       <ConfirmationModal
-      func="signup"
+        func="signup"
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleSignup}

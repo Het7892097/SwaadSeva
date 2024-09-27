@@ -1,25 +1,37 @@
-const express=require("express");
-const mainRouter=express.Router();
-const userRouter =require("./userRouter");
-const productRouter=require("./productRouter");
-const paymentRouter=require('./paymentRouter');
+const express = require("express");
+const mainRouter = express.Router();
+const userRouter = require("./userRouter");
+const productRouter = require("./productRouter");
+const paymentRouter = require("./paymentRouter");
 //base route: api/v1/
 
 // route: api/v1/user
-mainRouter.use("/user",(req,res,next)=>{
+mainRouter.use(
+  "/user",
+  (req, res, next) => {
     console.log("Through user route");
     next();
-},userRouter);
+  },
+  userRouter
+);
 
 // route: api/v1/product
-mainRouter.use("/product",(req,res,next)=>{
+mainRouter.use(
+  "/product",
+  (req, res, next) => {
     console.log("Through product route");
     next();
-},productRouter);
+  },
+  productRouter
+);
 
 // route: api/v1/payment
-mainRouter.use("/payment",(req,res,next)=>{
+mainRouter.use(
+  "/payment",
+  (req, res, next) => {
     console.log("Through payment-route");
-},paymentRouter)
+  },
+  paymentRouter
+);
 
-module.exports=mainRouter;
+module.exports = mainRouter;

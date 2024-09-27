@@ -1,19 +1,23 @@
 const mongo = require("mongoose");
 const { userSchema } = require("../schemas/userSchema");
 const { productSchema } = require("../schemas/productSchema");
-const {orderSchema}=require("../schemas/orderSchema")
+const { orderSchema } = require("../schemas/orderSchema");
 
-const dbUrl = "mongodb+srv://backup525125:BP5101520@machine-4.ac0b784.mongodb.net/foodOrderApp"
+const { mongoConnectString } = require("../utils/KeySettings");
 
-mongo.connect(dbUrl)
-    .then(() => console.log("Successfully connected to DB"))
-    .catch(e => console.log("Some error occurred while connecting to database",e))
+mongo
+  .connect(mongoConnectString)
+  .then(() => console.error("Successfully connected to DB"))
+  .catch((e) =>
+    console.error("Some error occurred while connecting to database", e)
+  );
 
 const User = mongo.model("Users", userSchema);
 const Product = mongo.model("Products", productSchema);
-const Order=mongo.model("Orders",orderSchema);
-
+const Order = mongo.model("Orders", orderSchema);
 
 module.exports = {
-    User, Product, Order
-}
+  User,
+  Product,
+  Order,
+};

@@ -4,7 +4,7 @@ import Taskbar from "../components/taskbar";
 import { useRecoilState } from "recoil";
 import { userAtom } from "../store/atoms/user";
 import { useNavigate } from "react-router-dom";
-import { EyeIcon,EyeSlashIcon } from "@heroicons/react/16/solid";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 import { PhoneIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 
 const baseUrl = "http://localhost:3050/api/v1";
@@ -24,7 +24,7 @@ export default function SignUpPage() {
   const [currentUser, setCurrentUser] = useRecoilState(userAtom);
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
-  console.log(currentUser); //for debugging
+  // console.log(currentUser); //for debugging
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -34,7 +34,6 @@ export default function SignUpPage() {
       setFormData({ ...formData, [name]: value });
     }
     setError("");
-
   };
 
   const handleSubmit = async (e) => {
@@ -51,11 +50,11 @@ export default function SignUpPage() {
       setError("Admin Key is required for admin users");
       return;
     }
-    
+
     const url = formData.isAdmin
       ? `${baseUrl}/user/signup/${formData.adminKey}` // Admin route with adminKey
       : `${baseUrl}/user/signup/:adminKey`; // Normal user signup
-      
+
     try {
       // Sending signup data to backend
       const response = await axios.post(url, {
@@ -68,9 +67,7 @@ export default function SignUpPage() {
 
       // Handle success
       if (response.status === 200) {
-        console.log(response.data);
-        localStorage.setItem("authorization", response.data.token);
-        console.log("User creation success");
+        localStorage.setItem("authtoken", response.data.token);
         setCurrentUser({
           mobNo: formData.mobNo,
           name: formData.fName,
@@ -119,11 +116,11 @@ export default function SignUpPage() {
               {success ? "User Creation Successful" : "Sign Up"}
             </h1>
             {success && (
-              <p className="text-green-500 text-center mb-4">User created successfully!</p>
+              <p className="text-green-500 text-center mb-4">
+                User created successfully!
+              </p>
             )}
-            {error && (
-              <p className="text-red-500 text-center mb-4">{error}</p>
-            )}
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             {!success && (
               <form onSubmit={handleSubmit}>
                 {/* Full Name Field */}
@@ -154,51 +151,51 @@ export default function SignUpPage() {
 
                 {/* Password Field */}
                 <div className="flex items-center border border-grey-light rounded mb-4">
-                <LockClosedIcon className="h-5 w-5 text-gray-400 ml-3" />
-                <input
-                  type={showPassword ? "text" : "password"} // Toggle between text and password
-                  onChange={handleChange}
-                  className="block w-full p-3 rounded-r"
-                  name="password"
-                  placeholder="Password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
-                  className="ml-2 focus:outline-none"
-                >
-                  {showPassword ? (
-                    <EyeIcon className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
-              </div>
+                  <LockClosedIcon className="h-5 w-5 text-gray-400 ml-3" />
+                  <input
+                    type={showPassword ? "text" : "password"} // Toggle between text and password
+                    onChange={handleChange}
+                    className="block w-full p-3 rounded-r"
+                    name="password"
+                    placeholder="Password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                    className="ml-2 focus:outline-none"
+                  >
+                    {showPassword ? (
+                      <EyeIcon className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <EyeSlashIcon className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
+                </div>
 
                 {/* Confirm Password Field */}
                 <div className="flex items-center border border-grey-light rounded mb-4">
-                <LockClosedIcon className="h-5 w-5 text-gray-400 ml-3" />
-                <input
-                  type={showPassword ? "text" : "password"} // Toggle between text and password
-                  onChange={handleChange}
-                  className="block w-full p-3 rounded-r"
-                   name="confirm_Password"
-                   placeholder="Confirm Password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
-                  className="ml-2 focus:outline-none"
-                >
-                  {showPassword ? (
-                    <EyeIcon className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
-              </div>
+                  <LockClosedIcon className="h-5 w-5 text-gray-400 ml-3" />
+                  <input
+                    type={showPassword ? "text" : "password"} // Toggle between text and password
+                    onChange={handleChange}
+                    className="block w-full p-3 rounded-r"
+                    name="confirm_Password"
+                    placeholder="Confirm Password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                    className="ml-2 focus:outline-none"
+                  >
+                    {showPassword ? (
+                      <EyeIcon className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <EyeSlashIcon className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
+                </div>
 
                 {/* Admin User Selection */}
                 <div className="flex items-center mb-4">

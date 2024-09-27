@@ -41,10 +41,9 @@ const Taskbar = ({ aboutUsRef }) => {
 
     setTotal(totalAmount);
     setQuantity(totalQuantity);
-    console.log(totalAmount+" "+totalQuantity);
+    // console.log(totalAmount+" "+totalQuantity);
   }, [localStorage.getItem("cartList")]);
-  console.log(total);
-  console.log(quantity);
+
   useEffect(() => {
     // Update the isLoggedIn and isAdmin based on currentUser
     if (currentUser) {
@@ -54,13 +53,13 @@ const Taskbar = ({ aboutUsRef }) => {
   }, [currentUser]); // Dependency on currentUser
 
   // Debugging purpose
-  console.log(currentUser);
+  // console.log(currentUser);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
   const logOutHandler = () => {
-    localStorage.removeItem("authorization");
+    localStorage.removeItem("authtoken");
     closeModal();
     navigate("/");
     setTimeout(() => {

@@ -53,7 +53,7 @@ router.delete("/delete",(req,res,next)=>{
 
 // route: api/v1/user/orders
 router.get("/orders",(req,res,next)=>{
-    console.log("Through orders route for getting route");
+    console.log("Through orders route for getting today-orders");
     next();
 },userMiddleware,adminMiddleware,orderGetter)
 

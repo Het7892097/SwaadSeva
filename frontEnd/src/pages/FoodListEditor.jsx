@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import OrderFoodCard from '../components/OrderFoodCard';
-import FoodModal from '../components/FoodModal';
-import axios from 'axios';
-import Taskbar from '../components/taskbar';
-const token=localStorage.getItem("authorization");
-console.log(token);
+import React, { useState, useEffect } from "react";
+import OrderFoodCard from "../components/OrderFoodCard";
+import FoodModal from "../components/FoodModal";
+import axios from "axios";
+import Taskbar from "../components/taskbar";
+
 const FoodListEditor = () => {
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentFoodItem, setCurrentFoodItem] = useState(null);
   const [foodItems, setFoodItems] = useState([]);
   const [updateFlag, setUpdateFlag] = useState(false); // New state to trigger refetch
+
+  const token = localStorage.getItem("authtoken");
+  if (!token) {
+    console.error("No auth token found");
+  }
 
   const categories = [
     "Beverages",
@@ -20,7 +24,7 @@ const FoodListEditor = () => {
     "South Indian",
     "Chinese",
     "Continental",
-    "Dessert"
+    "Dessert",
   ];
 
   // Fetching food items, re-run when updateFlag changes
@@ -28,7 +32,6 @@ const FoodListEditor = () => {
     axios
       .get("http://localhost:3050/api/v1/product/categLister")
       .then((response) => {
-        console.log(response.data.productList); // Debugging purpose
         setFoodItems(() => response.data.productList);
       })
       .catch((error) => {
@@ -46,7 +49,8 @@ const FoodListEditor = () => {
     setSelectedCategory(categoryIndex);
   };
 
-  const currentFoodItems = foodItems.find(item => item._id === selectedCategory)?.products || [];
+  const currentFoodItems =
+    foodItems.find((item) => item._id === selectedCategory)?.products || [];
 
   const handleEditClick = (item) => {
     setCurrentFoodItem(item);
@@ -59,30 +63,30 @@ const FoodListEditor = () => {
   };
 
   const handleSave = (foodItem) => {
-    const categoryIndex = foodItems.findIndex(item => item._id === selectedCategory);
-  
+    const categoryIndex = foodItems.findIndex(
+      (item) => item._id === selectedCategory
+    );
+
     if (currentFoodItem) {
       // Update existing food item via API
       axios
         .patch(
-          'http://localhost:3050/api/v1/product/update',
+          "http://localhost:3050/api/v1/product/update",
           {
             ...foodItem,
-            _id: currentFoodItem._id // Ensure to include the food item _id for updating
+            _id: currentFoodItem._id, // Ensure to include the food item _id for updating
           },
           {
             headers: {
-              Authorization: token // Replace with actual token
-            }
+              authtoken: token, // Pass the token correctly in headers
+            },
           }
         )
         .then((response) => {
           if (response.status === 200) {
             alert("Update Successful");
             setIsModalOpen(false); // Close modal after successful save
-            setUpdateFlag(prevFlag => !prevFlag); // Toggle updateFlag to trigger refetch
-            // Refetch food items if needed
-            fetchFoodItems(); // Call your fetch function to update local state
+            setUpdateFlag((prevFlag) => !prevFlag); // Toggle updateFlag to trigger refetch
           }
         })
         .catch((error) => {
@@ -108,28 +112,27 @@ const FoodListEditor = () => {
       // Create new food item via API
       axios
         .post(
-          'http://localhost:3050/api/v1/product/create',
+          "http://localhost:3050/api/v1/product/create",
           foodItem, // Pass the new food item data
           {
             headers: {
-              Authorization: token // Replace with actual token
-            }
+              authtoken: token, // Pass the token correctly in headers
+              "Content-Type": "application/json",
+            },
           }
         )
         .then((response) => {
           if (response.status === 200) {
             alert("Creation Successful");
             setIsModalOpen(false); // Close modal after successful creation
-            setUpdateFlag(prevFlag => !prevFlag); // Toggle updateFlag to trigger refetch
-            // Refetch food items if needed
-            fetchFoodItems(); // Call your fetch function to update local state
+            setUpdateFlag((prevFlag) => !prevFlag); // Toggle updateFlag to trigger refetch
           }
         })
         .catch((error) => {
           if (error.response) {
             switch (error.response.status) {
               case 400:
-                alert("Invalid User Details");
+                alert("Invalid Product Details");
                 break;
               case 409:
                 alert("Product Already Exists");
@@ -146,13 +149,13 @@ const FoodListEditor = () => {
         });
     }
   };
-  
 
   const handleDelete = (foodItemId) => {
     axios
-      .delete(`http://localhost:3050/api/v1/product/delete`, {
+      .delete("http://localhost:3050/api/v1/product/delete", {
         headers: {
-          Authorization: token, // Replace with actual token
+          authtoken: token, // Pass the token correctly in headers
+          "Content-Type": "application/json",
         },
         data: {
           _id: foodItemId, // Pass the food item ID in the request body
@@ -161,7 +164,7 @@ const FoodListEditor = () => {
       .then((response) => {
         if (response.status === 200) {
           alert("Deletion successful!"); // Alert for successful deletion
-          setUpdateFlag(prevFlag => !prevFlag); // Toggle updateFlag to trigger refetch
+          setUpdateFlag((prevFlag) => !prevFlag); // Toggle updateFlag to trigger refetch
         }
       })
       .catch((error) => {
@@ -176,15 +179,17 @@ const FoodListEditor = () => {
         }
       });
   };
-  
+
   return (
     <div className="p-4">
-        <Taskbar/>
+      <Taskbar />
       <h1 className="mt-8 text-2xl font-bold mb-4">Food List Editor</h1>
 
       {/* Dropdown for md screens */}
       <div className="lg:hidden md:block mb-4">
-        <label htmlFor="category-select" className="block text-lg font-medium">Select Category:</label>
+        <label htmlFor="category-select" className="block text-lg font-medium">
+          Select Category:
+        </label>
         <select
           id="category-select"
           className="select select-bordered w-full max-w-xs"
@@ -204,7 +209,9 @@ const FoodListEditor = () => {
         {categories.map((category, index) => (
           <button
             key={index}
-            className={`btn ${selectedCategory === index + 1 ? 'btn-primary' : 'btn-outline'}`}
+            className={`btn ${
+              selectedCategory === index + 1 ? "btn-primary" : "btn-outline"
+            }`}
             onClick={() => handleCategoryChange(index + 1)}
           >
             {category}
@@ -212,14 +219,21 @@ const FoodListEditor = () => {
         ))}
       </div>
 
-      <button onClick={handleCreateClick} className="btn btn-primary mb-4">Add Food Item</button>
+      <button onClick={handleCreateClick} className="btn btn-primary mb-4">
+        Add Food Item
+      </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {currentFoodItems.length === 0 ? (
           <p>No food present in this category</p>
         ) : (
           currentFoodItems.map((item, index) => (
-            <OrderFoodCard key={index} func="edit" item={item} cbfunc={() => handleEditClick(item)} />
+            <OrderFoodCard
+              key={index}
+              func="edit"
+              item={item}
+              cbfunc={() => handleEditClick(item)}
+            />
           ))
         )}
       </div>

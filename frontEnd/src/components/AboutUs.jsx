@@ -1,28 +1,29 @@
-
 const AboutUs = ({ aboutUsRef }) => {
-
   return (
-    <div ref={aboutUsRef} className="flex flex-col lg:flex-row items-center justify-between px-4 lg:px-16 py-10">
+    <div
+      ref={aboutUsRef}
+      className="flex flex-col lg:flex-row items-center justify-between px-4 lg:px-16 py-10"
+    >
       {/* Grid for images */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full lg:w-1/2 mb-8 lg:mb-0">
         <div className="flex justify-center p-5">
-            <img
+          <img
             src="https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg"
             alt="Food 1"
             className="rounded-lg object-cover"
-            />
+          />
         </div>
         <div className="md:flex flex-col gap-2 hidden ">
-            <img
+          <img
             src="https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg"
             alt="Food 2"
             className="rounded-lg object-cover"
-            />
-            <img
+          />
+          <img
             src="https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg"
             alt="Food 3"
             className="rounded-lg object-cover"
-            />
+          />
         </div>
       </div>
 

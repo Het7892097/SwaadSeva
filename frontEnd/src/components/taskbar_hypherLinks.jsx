@@ -5,24 +5,23 @@ import { userAtom } from "../store/atoms/user";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 const Taskbar = () => {
-   // State for menu toggle
-   const [menuOpen, setMenuOpen] = useState(false);
+  // State for menu toggle
+  const [menuOpen, setMenuOpen] = useState(false);
 
-   // State for logged-in and admin status
-   const [isLoggedIn, setIsLoggedIn] = useState(false);
-   const [isAdmin, setIsAdmin] = useState(false);
- 
-   // Get the current user data from Recoil
-   const currentUser = useRecoilValue(userAtom);
- 
-   useEffect(() => {
-     // Update the isLoggedIn and isAdmin based on currentUser
-     setIsLoggedIn(currentUser.mobNo ? true : false);
-     setIsAdmin(currentUser.isAdmin || false);
-   }, [currentUser]); // Dependency on currentUser
- 
-   // Debugging purpose
-   console.log(currentUser)
+  // State for logged-in and admin status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Get the current user data from Recoil
+  const currentUser = useRecoilValue(userAtom);
+
+  useEffect(() => {
+    // Update the isLoggedIn and isAdmin based on currentUser
+    setIsLoggedIn(currentUser.mobNo ? true : false);
+    setIsAdmin(currentUser.isAdmin || false);
+  }, [currentUser]); // Dependency on currentUser
+
+  // Debugging purpose
 
   const navigate = useNavigate();
 

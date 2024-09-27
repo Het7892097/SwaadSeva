@@ -1,11 +1,9 @@
 const ConfirmationModal = ({ isOpen, onClose, onConfirm, func }) => {
-  // console.log("Modal props:", { isOpen, onClose, onConfirm }); // Check if props are coming through
-
   if (!isOpen) return null;
   let title = "";
   let desc = "";
 
-  if (func === "Signup") {
+  if (func === "signup") {
     title = "Confirm Sign Up";
     desc = "Are you sure you want to sign up?";
   } else {
@@ -21,7 +19,6 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, func }) => {
         <div className="mt-4">
           <button
             onClick={() => {
-              console.log("Confirm button clicked");
               onConfirm();
             }}
             className="bg-green-500 text-white px-4 py-2 mr-2 rounded"
@@ -30,7 +27,6 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, func }) => {
           </button>
           <button
             onClick={() => {
-              console.log("No button clicked");
               onClose();
             }}
             className="bg-red-500 text-white px-4 py-2 rounded"

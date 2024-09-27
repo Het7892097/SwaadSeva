@@ -14,7 +14,6 @@ const { jwtVerifier } = require("../utils/jwtVerifier");
 
 async function creator(reqBody, ipAdminKey) {
   reqBody.password = await hashGenerator(reqBody.password); //hashing password
-  // console.log(ipAdminKey);
   const isValid = userCreateValidator(reqBody);
   if (!isValid) {
     return "InvalidUserDetails";
@@ -64,6 +63,9 @@ async function orderLister() {
         $lte: endOfDay,
       },
     });
+    if (!orders) {
+      return "FetchError";
+    }
     return orders; // Return the list of today's orders
   } catch (e) {
     console.error("Error while fetching Orders");
@@ -72,7 +74,6 @@ async function orderLister() {
 }
 
 async function completer(orderId) {
-
   // Define the start and end of the day
   const today = new Date();
   const startOfDay = new Date(today.setHours(0, 0, 0, 0));
@@ -82,24 +83,28 @@ async function completer(orderId) {
     let todayOrders = await orderLister();
     todayOrders = todayOrders[0]?.orders || [];
 
-    const ordersToUpdate = todayOrders.filter(order => order.orderId === orderId);
+    const ordersToUpdate = todayOrders.filter(
+      (order) => order.orderId === orderId
+    );
 
     if (ordersToUpdate.length === 0) {
       return "OrderNotFound";
     }
 
-    ordersToUpdate.forEach(order => {
+    ordersToUpdate.forEach((order) => {
       order.isCompleted = true;
     });
 
     await Order.updateOne(
-      { 'orders.orderId': orderId, orderDate: { $gte: startOfDay, $lt: endOfDay } },
-      { $set: { 'orders.$[elem].isCompleted': true } },
-      { arrayFilters: [{ 'elem.orderId': orderId }] }
+      {
+        "orders.orderId": orderId,
+        orderDate: { $gte: startOfDay, $lt: endOfDay },
+      },
+      { $set: { "orders.$[elem].isCompleted": true } },
+      { arrayFilters: [{ "elem.orderId": orderId }] }
     );
 
     return "UpdationSuccess";
-
   } catch (e) {
     console.error("Error updating orders:", e);
     return "UpdationFailed";
@@ -113,7 +118,6 @@ async function logger(reqBody) {
   }
   //else
   const targetUser = await userGetter(reqBody.mobNo);
-  console.log(targetUser);
   if (targetUser == null) {
     return "UserNotExists";
   }
@@ -131,7 +135,6 @@ async function logger(reqBody) {
 }
 
 async function detailer(token) {
-  console.log(token);
   if (!token) {
     console.error("Token not provided");
     return "NoToken";
@@ -154,7 +157,6 @@ async function detailer(token) {
     }
   }
 }
-
 
 async function updater(reqBody, decodedToken) {
   if (reqBody.mobNo) {
@@ -197,8 +199,7 @@ async function remover(decodedToken) {
 }
 
 async function orderer(userOrder, decodedToken) {
-  // console.log(userOrder ? userOrder : "");
-console.log("Inside user repo");
+  console.log("Inside user repo");
   const targetUser = await User.findOne({ mobNo: decodedToken["mobNo"] });
   if (!targetUser) {
     return "UserNotExists";
@@ -211,15 +212,20 @@ console.log("Inside user repo");
   }
 
   const currentDateObj = new Date();
-  // Use toISOString() to get a reliable date format
-  const currentDate = currentDateObj.toISOString().slice(0, 10); // Format: YYYY-MM-DD
-  const currentTime = currentDateObj.toTimeString().slice(0, 8); // Format: HH:MM:SS
 
-  // console.log(`${currentDate} ${currentTime}`);
+  // Get the local date and time
+  const currentDate = currentDateObj.toLocaleString("en-CA", {
+    dateStyle: "short",
+  }); // Format: YYYY-MM-DD
+  const currentTime = currentDateObj.toLocaleString("en-US", {
+    timeStyle: "short",
+    hour12: false,
+  }); // Format: HH:MM:SS
 
+  // Construct order list
   const alteredOrderList = userOrder.map((order) => ({
     userId: targetUser._id,
-    orderedTime: currentTime.toString(),
+    orderedTime: currentTime,
     name: order.name,
     quantity: order.quantity,
     isCompleted: false,
@@ -268,7 +274,7 @@ async function orderLister() {
   const endOfDay = new Date(today.setHours(23, 59, 59, 999));
 
   try {
-    const orders=await Order.find({
+    const orders = await Order.find({
       orderDate: {
         $gte: startOfDay,
         $lte: endOfDay,
@@ -277,7 +283,7 @@ async function orderLister() {
     // console.log(orders);
     return orders;
   } catch (e) {
-    console.error("Error while fetching Orders")
+    console.error("Error while fetching Orders");
     return "FetchError";
   }
 }
@@ -322,5 +328,5 @@ module.exports = {
   orderer,
   detailer,
   orderLister,
-  completer
+  completer,
 };

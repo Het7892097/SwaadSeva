@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
+import { atom } from "recoil";
 
 export const cartAtom = atom({
-    key: 'cartState', // unique ID (with respect to other atoms/selectors)
-    default: [],      // default value (initial state)
-  });
+  key: "cartState", // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (initial state)
+});

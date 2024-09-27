@@ -1,6 +1,6 @@
 // cartHelper.js
-const CART_KEY = 'cartData';
-const TOKEN_KEY = 'authorization'; // Adjust as per your actual token key
+const CART_KEY = "cartData";
+const TOKEN_KEY = "authtoken"; // Adjust as per your actual token key
 
 export const saveCart = (cart) => {
   const token = localStorage.getItem(TOKEN_KEY);

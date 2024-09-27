@@ -1,4 +1,3 @@
-
 function CategoryCarousel() {
   return (
     <div className="flex flex-col items-center justify-between px-4 lg:px-16 py-10">
@@ -15,9 +14,9 @@ function CategoryCarousel() {
   );
 }
 
-export default CategoryCarousel ;
+export default CategoryCarousel;
 
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const ResponsiveCarousel = () => {
   // Image list (Replace with your image URLs)
@@ -59,12 +58,16 @@ const ResponsiveCarousel = () => {
 
   // Function to move to the previous set of images
   const prevSlide = () => {
-    const newIndex = (currentIndex - imagesPerSlide + images.length) % images.length;
+    const newIndex =
+      (currentIndex - imagesPerSlide + images.length) % images.length;
     setCurrentIndex(newIndex);
   };
 
   // Get the current images to display
-  const visibleImages = images.slice(currentIndex, currentIndex + imagesPerSlide);
+  const visibleImages = images.slice(
+    currentIndex,
+    currentIndex + imagesPerSlide
+  );
 
   return (
     <div className="relative w-full">
@@ -137,4 +140,3 @@ const ResponsiveCarousel = () => {
     </div>
   );
 };
-

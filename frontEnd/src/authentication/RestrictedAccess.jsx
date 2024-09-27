@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RestrictedAccess = () => {
   const navigate = useNavigate();
@@ -7,7 +7,7 @@ const RestrictedAccess = () => {
   useEffect(() => {
     // Redirect to home after 3 seconds
     const timer = setTimeout(() => {
-      navigate('/');
+      navigate("/");
     }, 3000); // 3000 milliseconds = 3 seconds
 
     // Cleanup timer on component unmount
@@ -15,8 +15,10 @@ const RestrictedAccess = () => {
   }, [navigate]);
 
   return (
-    <div style={{ textAlign: 'center', fontSize: '2rem', margin: '20px' }}>
-      <p>This page is not accessible. You will be redirected to the home page.</p>
+    <div style={{ textAlign: "center", fontSize: "2rem", margin: "20px" }}>
+      <p>
+        This page is not accessible. You will be redirected to the home page.
+      </p>
     </div>
   );
 };
