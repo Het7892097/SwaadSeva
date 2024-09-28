@@ -9,7 +9,7 @@
 * **Order Management:**  Users can seamlessly add items to their cart and complete orders.
 * **Real-time Cart Update:** The cart dynamically reflects changes as users add or remove items, always displaying the accurate total amount.
 * **Checkout Process:** A straightforward checkout process leads to a thank you page with all order details.
-* **Admin Functionality (Limited Focus):** Basic admin capabilities are included for managing orders and users. Creating an admin user requires an admin key, which is only known to main persons or stakeholders.
+* **Admin Functionality (Limited Focus):** Basic admin capabilities are included for managing orders and users. Creating an admin user requires an admin key, which is only known to main persons or stakeholders. Here is the the AdminKey:'OursNotYours'
 
 ### Tech Stack
 
